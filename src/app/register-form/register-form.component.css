@@ -1,0 +1,53 @@
+
+.mat-input-wrapper {
+  width: 100%;
+  display: inline-block;
+}
+.mat-input-wrapper input {
+  text-align: left;
+}
+
+input.ng-touched.ng-dirty.ng-invalid ~ .error-text {
+  display: block;
+  visibility: visible;
+}
+
+::ng-deep .mat-form-field-infix {
+  /*border: none !important;*/
+}
+
+.error-text {
+  visibility: hidden;
+  color: #b94a48;
+  font-size: 12px;
+  display: none;
+  line-height: 18px;
+}
+
+.error-message {
+  color: #b94a48;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+}
+
+label {
+  color: darkgrey;
+  display: block;
+  margin: 5px 0 0 0;
+}
+
+/*--------------scroll style-------------*/
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+}

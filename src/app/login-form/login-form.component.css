@@ -1,0 +1,12 @@
+#input-login {
+  margin: 0;
+  width: calc(100% - 70px);
+  display: inline-block;
+}
+.mat-input-wrapper {
+  width: calc(100% - 35px);
+  display: inline-block;
+}
+.mat-input-wrapper input {
+  text-align: left;
+}

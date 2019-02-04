@@ -1,0 +1,14 @@
+<div class="content">
+  <div class="close-cross" (click)="closeDialog()"></div>
+  <div class="photo-content align">
+    <img id="photo"  [ngClass]="{photo: loaded}" class=" align" [src]="" alt="">
+    <mat-progress-bar [ngClass]="{marg: !loaded}" class="progress-bar-mat" *ngIf="!loaded" mode="indeterminate"></mat-progress-bar>
+    <p class="name">
+      <span>{{author.first_name || ""}} {{author.last_name || ""}}</span>
+    </p>
+  </div>
+  <p class="comment"
+     [ngClass]="{low: data.item.comment_value === 1, middle: data.item.comment_value === 2, hight: data.item.comment_value === 3}">
+    {{data.item.comment}}
+  </p>
+</div>

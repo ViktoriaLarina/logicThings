@@ -1,0 +1,394 @@
+.dev-ifo{
+  min-height: 300px;
+
+}
+.comment-value-select,
+.comment-text-area{
+  width: 100%;
+}
+.value-field {
+  width: 240px;
+}
+.mat-dialog-content {
+  position: relative;
+}
+.change-form-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+}
+.change-form-loader .mat-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+}
+.device-reading-btns, .period-input-wrapper {
+  /*display: inline-block;*/
+  display: table-cell;
+}
+.period-input-wrapper {
+  text-align: center;
+  vertical-align: middle;
+}
+.device-reading-btns.left-block {
+  text-align: left;
+  width: 500px;
+  vertical-align: middle;
+}
+.device-reading-btns.right-block {
+  text-align: right;
+  width: 120px;
+  vertical-align: middle;
+}
+.picker-block-wrapper {
+  display: table;
+  width: 100%;
+}
+.device-data-btn {
+  width: 100px;
+  height: 50px;
+  float: left;
+  text-align: center;
+  border: 1px solid #c2c2c2;
+  cursor: pointer;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.device-data-link {
+  line-height: 48px;
+}
+.device-data-process {
+  height: 50px;
+  width: 50px;
+  float: left;
+  border: 1px solid #c2c2c2;
+  cursor: pointer;
+  padding: 12px;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.device-data-btn.is-active, .device-data-process.is-active {
+  background: #c2c2c2;
+  background: rgba(74,118,168,0.9);
+  color: #ffffff;
+  border: 1px solid #3d3780;
+}
+.device-data-btn:hover, .device-data-process:hover {
+  background: #c5cae8;
+  color: #3d3780;
+  border: 1px solid #4a76a8;
+}
+.device-data-process.is-active .table-view-icon, .device-data-process:hover .table-view-icon {
+  background: url('../../assets/img/table-view-ffffff-bg.png') center center no-repeat;
+  /*background: url('../../assets/img/tasks (1).png') center center no-repeat;*/
+  background-size: cover;
+}
+.device-data-process.is-active .chart-view-icon, .device-data-process:hover .chart-view-icon {
+  background: url('../../assets/img/combo-chart-view-ffffff-bg.png') center center no-repeat;
+  background-size: cover;
+}
+.date-picker-input {
+  /*border: 0;*/
+  /*outline: 0;*/
+  /*-webkit-box-shadow: none;*/
+  /*-moz-box-shadow: none;*/
+  /*box-shadow: none;*/
+  /*border-bottom: 2px solid #c2c2c2;*/
+  /*border-radius: 0;*/
+  /*-webkit-transition: all 0.3s ease;*/
+  /*-moz-transition: all 0.3s ease;*/
+  /*-ms-transition: all 0.3s ease;*/
+  /*-o-transition: all 0.3s ease;*/
+  /*transition: all 0.3s ease;*/
+  /*text-align: center;*/
+  /*background-color: rgba(245,245,245,1);*/
+}
+.date-picker-input:focus {
+  /*background-color: #ffffff;*/
+  /*border: 0;*/
+  /*outline: 0;*/
+  /*box-shadow: none;*/
+  /*border-bottom: 2px solid #3f51b5;*/
+}
+.datepicker-period-input {
+  border: 0;
+  outline: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-bottom: 2px solid #c2c2c2;
+  border-radius: 0;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  text-align: center;
+  background-color: rgba(245,245,245,1);
+  width: 200px;
+}
+.datepicker-period-input:focus {
+  background-color: #ffffff;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  border-bottom: 2px solid #3f51b5;
+}
+.period-input-wrapper {
+   /*float: left;*/
+   height: 70px;
+   /*width: calc(100% - 550px);*/
+   text-align: center;
+   position: relative;
+   /*padding: 10px;*/
+ }
+.period-input-wrapper .date-change-button, .period-input-wrapper .date-change-button:focus {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+}
+.date-picker-wrapper {
+  /*padding: 5px;*/
+  display: inline-block;
+  /*width: 49.5%;*/
+}
+.date-picker-modal {
+  width: 445px;
+  padding: 5px;
+  z-index: 99999 !important;
+  margin: -2em auto 0;
+  border: 1px solid #c2c2c2;
+  box-shadow: 0 0 10px 2px #c2c2c2;
+  background: #ffffff;
+  /*-webkit-border-radius: 3px;*/
+  /*-moz-border-radius: 3px;*/
+  /*border-radius: 3px;*/
+  left: 50%;
+  margin-left: -225px;
+  position: absolute;
+}
+.date-picker-modal .date-picker-wrapper {
+  width: 49%;
+}
+.date-picker-footer {
+  padding-top: 10px;
+}
+.date-picker-footer > div {
+  width: 70%;
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+}
+.date-picker-footer button {
+  /*width: 20%;*/
+  display: inline-block;
+  vertical-align: top;
+}
+.date-picker-footer p {
+  margin-bottom: 5px;
+}
+.warning-message {
+  color: #ff0000;
+  font-size: 0.9em;
+}
+.period-input-wrapper {
+  z-index: 1;
+  text-align: center;
+  width: calc(100% - 650px) !important;
+}
+#table-view {
+  padding: 1em;
+}
+table {
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+}
+thead {
+  background: #3f51b5;
+}
+th {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+tr {
+  border-bottom: 1px solid #c2c2c2;
+  height: 3em;
+}
+.device-reading-btns button.is-active {
+  /*border: 1px solid #c2c2c2;*/
+  background: #89A7BC;
+  background: #3d3780;
+
+}
+.compact-btn {
+  width: 36px;
+  min-width: 36px;
+  padding: 0 6px;
+}
+::ng-deep button.dp-calendar-month, ::ng-deep button.dp-calendar-day {
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+::ng-deep .dp-calendar-wrapper .dp-calendar-weekday:first-child, ::ng-deep .dp-calendar-wrapper .dp-calendar-weekday {
+  border: 0;
+  font-weight: 700;
+}
+::ng-deep .dp-nav-header-btn {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  /*background: #89A7BC;*/
+  background: #c5cae8;
+  display: inline-block;
+  margin: 2px;
+  border: 1px solid #3d3780;
+}
+::ng-deep .dp-nav-header-btn:focus {
+  background: #89A7BC;
+  outline: 0;
+}
+::ng-deep .mat-datepicker-popup {
+  bottom:0 !important;
+}
+::ng-deep .devices-container .mat-form-field-infix {
+  /* width: 140px !important;
+  text-align: center !important; */
+  width: auto;
+}
+::ng-deep .change-form .mat-form-field-infix {
+  text-align: left !important;
+}
+::ng-deep .date-picker-input {
+  text-align: center !important;
+}
+.align {
+  margin: 60px auto;
+}
+.edit-icon-inverted {
+  background: url('../../assets/img/edit.png') center center no-repeat;
+  background-size: cover;
+}
+.btn:hover .add-info-icon {
+  background: url('../../assets/img/add-ffffff-bg.png') center center no-repeat;
+  background-size: cover;
+}
+.delete-icon-inverted {
+  background: url('../../assets/img/cart-ffffff-bg.png') center center no-repeat;
+  background-size: cover;
+}
+.editable-cell, .editable-cell div {
+  max-width: 250px;
+  width: 250px;
+}
+td .mat-input-wrapper {
+  display: inline-block;
+  margin-right: 10px;
+  /*display: block;*/
+  /*width: 60%;*/
+  /*margin: 0 auto;*/
+}
+td .mat-input-wrapper input {
+  text-align: center;
+}
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.time-wrapper {
+  max-width: 23%;
+  text-align: center;
+}
+.local-heading {
+  margin: 0;
+  text-align: center;
+  color: #3f51b5;
+  font-weight: 700;
+  display: block;
+  width: 100%;
+}
+#table-view {
+  padding-top: 0;
+}
+#data-table {
+  margin-top: 1em;
+  table-layout: fixed;
+}
+.reading-value-wrapper {
+  display: block;
+}
+.mat-accordion .save-icon-inverted {
+  display: inline-block;
+  margin-left: 10px;
+}
+.reading-date-wrapper {
+  display: inline-block;
+  padding-right: 1em;
+}
+.reading-value-wrapper .mat-input-wrapper,
+.readings-input {
+  width: 200px;
+}
+.mat-input-wrapper-comment,
+.readings-input{
+  width: 100%;
+}
+.save-button {
+  margin-left: 15px;
+}
+.editable-cell .mat-error {
+  white-space: nowrap;
+}
+.editable-cell ::ng-deep .mat-form-field-subscript-wrapper {
+  overflow: visible !important;
+}
+.status-position {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  right: 3px;
+  top: 3px;
+  z-index: 1;
+}
+.status-low{
+  background-color: #00e600;
+}
+.status-middle {
+  background-color: yellow;
+}
+.status-hight{
+  background-color: red;
+}
+.td-0{
+  background-color: #dfdfdf;
+}
+
+.from-device {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: #3f51b5;
+  color: rgba(255,255,255,.87);
+  position: relative;
+}
+

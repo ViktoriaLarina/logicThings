@@ -1,0 +1,90 @@
+<div>
+  <app-device-management *ngIf="management.add" (onCloseDevice)="onCloseDevice($event)"></app-device-management>
+  <div
+    *ngFor="let item of devices"
+    class="device-card-wrapper"
+    [ngClass]="{'is-active': currentDevice.serial_number === item.serial_number}">
+    <mat-card  (click)="chooseDevice(item)">
+      <mat-card-header>
+        <img mat-card-avatar [src]="getAva(item)">
+        <mat-card-subtitle>
+          <div class="row">
+            <div class="col-5">
+              <p><span>Тип прибора учета:</span><span>{{item.name}}</span></p>
+              <p><span>№ прибора учета:</span><span>{{item.serial_number}}</span></p>
+              <p><span>Участок:</span><span>{{item.sector}}</span></p>
+            </div>
+
+            <div class="col-4" >
+
+              <div *ngIf="item.devState && item.devState.length > 0">
+
+                <div *ngIf="stateArray[item.devState[item.devState.length - 1].value]" class="status-position" [ngClass]="[stateArray[item.devState[item.devState.length - 1].value].cssClass]"
+                     matTooltip="{{stateArray[item.devState[item.devState.length - 1].value].text}}">{{stateArray[item.devState[item.devState.length - 1].value].text}}</div>
+
+                <span *ngIf="item.devState[item.devState.length - 1].value === DeviceState.REPLACED">
+                  <span>Заменен на:</span>
+                  <span>{{getChildSerial(item)}}</span>
+                  <br>
+                  <span>Дата замены:</span>
+                  <span>{{getReplacementDate(item)}}</span>
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="col-3" *ngIf="item.devState && item.devState.length > 0">
+              <p>
+              <button mat-raised-button color="primary"
+                      class="state-button"
+                      (click)="changeState(item, $event)"
+                      *ngIf="item.devState[item.devState.length - 1].value !== 'замененный'">
+                Изменить статус
+              </button>
+              </p>
+
+              <p>
+              <p><button mat-raised-button color="primary"
+                      class="state-button" (click)="openDialog(item)">
+                Показать QR-код
+              </button></p>
+            </div>
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content *ngIf="currentDevice.serial_number === item.serial_number">
+        <span class="info-chunk">
+          <span>Тип прибора учета: {{item.name}}</span>
+          <span>Описание: {{item.description}}</span>
+        </span>
+        <span class="info-chunk">
+          <span>№ прибора учета: {{item.serial_number}}</span>
+          <span>Лицевой счет: {{item.bill_number}}</span>
+        </span>
+        <span class="info-chunk">
+          <span>app_eui: {{item.app_eui}}</span>
+          <span>dev_eui: {{item.dev_eui}}</span>
+        </span>
+        <span class="info-chunk">
+          <span>Адрес устройства: {{item.dev_addr}}</span>
+          <span>Порт подключения: {{item.port}}</span>
+        </span>
+      </mat-card-content>
+    </mat-card>
+
+    <app-device-edit
+      [device]="currentDevice"
+      [deviceValues]="currentDeviceValues"
+      *ngIf="management.edit && currentDevice.name === item.name"
+      (onCloseEditDevice)="onCloseEditDevice($event)">
+    </app-device-edit>
+
+    <app-device-change-state
+      [device]="currentDevice"
+      [deviceArr]="devices"
+      *ngIf="management.changeState && currentDevice.name === item.name"
+      (onCloseChangeStateDevice)="onCloseChangeStateDevice($event)">
+    </app-device-change-state>
+  </div>
+</div>

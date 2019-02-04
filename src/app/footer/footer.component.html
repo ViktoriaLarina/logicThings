@@ -1,0 +1,25 @@
+<footer class="clearfix" [ngClass]="{'no-sidebar-page': (router.url === '/home/reports' || router.url === '/home/users')}">
+  <div class="footer-block footer-left">
+    <span class="copyright">Copyright &copy; LoThings 2017</span>
+  </div>
+  <div class="footer-block footer-center">
+    <ul class="list-inline social-buttons">
+      <li>
+        <a href="https://twitter.com/LoThingsDev">
+          <i fa [name]="'twitter'"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.facebook.com/groups/361490320864986/">
+          <i fa [name]="'facebook'"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i fa [name]="'linkedin'"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="footer-block footer-right"></div>
+</footer>

@@ -1,0 +1,64 @@
+.wrapper {
+  padding: 30px 0;
+}
+
+form {
+  overflow: hidden;
+  margin: 15px;
+  font-size: 16px;
+}
+
+mat-select {
+  width: 250px;
+}
+
+input {
+  border: 0;
+}
+
+#edit-role-user {
+  margin-bottom: 18px;
+}
+
+input.ng-touched.ng-dirty.ng-invalid ~ .error-text {
+  visibility: visible;
+}
+
+.error-text {
+  visibility: hidden;
+  color: #b94a48;
+  font-size: 12px;
+  display: block;
+  line-height: 18px;
+  overflow: hidden;
+}
+
+.error-message {
+  color: #b94a48;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+}
+
+.mat-input-wrapper {
+  display: block;
+  width: 500px;
+  margin: 0 50px;
+}
+
+label {
+  color: darkgrey;
+  display: block;
+  margin-bottom: 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 2px;
+}
+
+.btn-group {
+  display: block;
+  margin: 15px 0 30px 0;
+  text-align: center;
+}

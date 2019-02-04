@@ -1,0 +1,58 @@
+<div class="loader-block">
+  <p *ngIf="node?.node_type >= 20 && !node?.isWaiting && rendDevices.length == 0" class="text-center" >
+    Нет устройств на данном адресе
+  </p>
+  <p class="text-center" 
+    [ngStyle]="{'opacity': (node?.node_type >= 20 && node?.isWaiting) ? 1 : 0 }">
+    Загрузка данных...
+  </p>
+</div>
+<div class="devices-container">
+  <mat-tab-group (focusChange)="sortDevices($event)" *ngIf="rendDevices.length">
+    <mat-tab label="{{tabs.tabAll.name}}" *ngIf="tabs.tabAll.exist" id="{{tabs.tabAll.device_type}}"></mat-tab>
+    <mat-tab label="{{tabs.tab10.name}}" *ngIf="tabs.tab10.exist" id="{{tabs.tab10.device_type}}"></mat-tab>
+    <mat-tab label="{{tabs.tab20.name}}" *ngIf="tabs.tab20.exist" id="{{tabs.tab20.device_type}}"></mat-tab>
+    <mat-tab label="{{tabs.tab30.name}}" *ngIf="tabs.tab30.exist" id="{{tabs.tab30.device_type}}"></mat-tab>
+    <mat-tab label="{{tabs.tab40.name}}" *ngIf="tabs.tab40.exist" id="{{tabs.tab40.device_type}}"></mat-tab>
+    <mat-tab label="{{tabs.tab50.name}}" *ngIf="tabs.tab50.exist" id="{{tabs.tab50.device_type}}"></mat-tab>
+  </mat-tab-group>
+
+  <div  id="dev-wrap" class="devices-wrapper" [ngClass]="{'checked': widthChecked}">
+    <div id="devices-row" [ngClass]="{'active': rendDevices.length }" class="devices-row clearfix" [ngStyle]="{'width': currentWidth}" >
+      <div class="devices-holder">
+        <div *ngFor="let item of rendDevices"
+             class="devices-item"
+             [ngClass]="{'is-active': currentParam === item}"
+             (click)="infoReload(item)">
+          <span class="device-icon" [ngClass]="pickIcon(item)">
+          </span>
+          <div *ngIf="item.devState">
+          <div class="status-position status-on"
+               matTooltip="Работает"
+               *ngIf="item.devState[item.devState.length - 1].value === DeviceState.WORKED"></div>
+          <div class="status-position status-off"
+               matTooltip="Не работает"
+               *ngIf="item.devState[item.devState.length - 1].value === DeviceState.NOT_WORKED"></div>
+          <div class="status-position status"
+               matTooltip="Украден"
+               *ngIf="item.devState[item.devState.length - 1].value === DeviceState.ABSENT"></div>
+          <div class="status-position status-replaced"
+               matTooltip="Заменен"
+               *ngIf="item.devState[item.devState.length - 1].value === DeviceState.REPLACED"></div>
+          </div>
+          <p class="device-text">{{item.name}}</p>
+          <p class="device-text">{{item.serial_number}}</p>
+          <!--<p class="device-text">-->
+            <!--<span>{{item.info}}</span>-->
+            <!--<span>{{item.items}}</span>-->
+          <!--</p>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-address-addition *ngIf="management.addressAddition && !management.addressEdit && !management.device"></app-address-addition>
+  <app-address-edit *ngIf="management.addressEdit && !management.addressAddition && !management.device"></app-address-edit>
+  <app-device-readings [currentDevice] = "currentParam" *ngIf="!management.addressAddition && !management.addressEdit && devices[0]"></app-device-readings>
+
+</div>

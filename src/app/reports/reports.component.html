@@ -1,0 +1,472 @@
+<div id="reports">
+  <div class="reports-wrapper">
+    <div id="reports-dashboard">
+      <div class="icon-wrapper" (click)="showHideFilters()"></div>
+
+      <div class="small-filter" [ngClass]="{hidden : isFiltersVisible, visible : !isFiltersVisible }">
+        <span *ngIf="reportParameters.management_company">{{'УК: ' + reportParameters.management_company}}</span>
+        <span *ngIf="reportParameters.district">{{'Район: ' + (reportParameters.district | selectPipe) }}</span>
+        <span *ngIf="reportParameters.sector">{{'Участок: ' + (reportParameters.sector | selectPipe) }}</span>
+        <span *ngIf="reportParameters.device_type">{{'Устройства: ' + (reportParameters.device_type | deviceTypesNames)}}</span>
+        <span *ngIf="reportParameters.startingDate">{{'Период: c ' + (reportParameters.startingDate | date:'dd.MM.yyyy') + ' по ' + (reportParameters.endingDate | date:'dd.MM.yyyy')}}</span>
+      </div>
+
+      <div class="justify-content-md-left text-style flex-block"
+           [ngClass]="{hidden : !isFiltersVisible, visible : isFiltersVisible }">
+        <!--<div class="icon-wrapper" (click)="showHideFilters()">-->
+
+        <div>
+          <div class="criterion-inner">
+            <mat-label class="criterion-label criterion-inner-block" for="management_company">
+              <span>Управляющая компания</span>
+            </mat-label>
+            <span class="no-data criterion-inner-block"
+                  *ngIf="managementCompanies.length === 0 && !filterDataLoading">
+                  Нет данных для отображения
+            </span>
+            <span class="small-spinner-wrapper" *ngIf="filterDataLoading === 'start'">
+              <mat-progress-spinner
+                [diameter]="40"
+                class="spinner-centered spinner-absolute spinner-small"
+                color="primary"
+                mode="indeterminate"
+                value="60">
+              </mat-progress-spinner>
+            </span>
+            <mat-form-field class="criterion-inner-block" *ngIf="managementCompanies.length > 0">
+              <mat-select id="management_company"
+                          placeholder="Выберите компанию"
+                          [(ngModel)]="reportParameters.management_company"
+                          (selectionChange)="getNextCriterion('management_company')">
+                <mat-option *ngFor="let company of managementCompanies" [value]="company">{{company}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div>
+          <div class="criterion-inner">
+            <div class="disabled" *ngIf="!reportParameters.management_company"></div>
+
+            <mat-label class="criterion-label criterion-inner-block" for="district">
+              <span>Район</span>
+            </mat-label>
+
+            <span class="no-data criterion-inner-block"
+                  *ngIf="reportParameters.management_company && districts.length === 0
+                  && filterDataLoading !== 'management_company'">
+                  Нет данных для отображения
+              </span>
+
+            <span class="small-spinner-wrapper"
+                  *ngIf="filterDataLoading === 'management_company'">
+                <mat-progress-spinner
+                  [diameter]="40"
+                  class="spinner-centered spinner-absolute spinner-small"
+                  color="primary"
+                  mode="indeterminate"
+                  value="60">
+                </mat-progress-spinner>
+              </span>
+
+            <mat-form-field class="criterion-inner-block"
+                            *ngIf="!reportParameters.management_company || (districts.length > 0 && filterDataLoading !== 'management_company')">
+              <mat-select id="district"
+                          placeholder="Выберите район"
+                          [(ngModel)]="reportParameters.district"
+                          (selectionChange)="getNextCriterion('district')">
+                <mat-option value="all">Все</mat-option>
+                <mat-option *ngFor="let district of districts" [value]="district">{{district}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="criterion-inner">
+            <div class="disabled" *ngIf="!reportParameters.district"></div>
+
+            <mat-label class="criterion-label criterion-inner-block" for="device_type">
+              <span>Устройство</span>
+            </mat-label>
+            <mat-form-field class="criterion-inner-block">
+              <mat-select id="device_type"
+                          placeholder="Выберите устройство"
+                          [(ngModel)]="reportParameters.device_type"
+                          (selectionChange)="getNextCriterion('device_type')">
+                <mat-option *ngFor="let item of devices" [value]="item.device_type">{{item.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="criterion-inner">
+            <div class="disabled" *ngIf="!reportParameters.device_type"></div>
+
+            <mat-label class="criterion-label criterion-inner-block" for="sector">
+              <span>Участок</span>
+            </mat-label>
+
+            <span class="no-data criterion-inner-block"
+                  *ngIf="reportParameters
+                  && reportParameters.district
+                  && reportParameters.device_type
+                  && (!sectors || sectors.length === 0)
+                  && filterDataLoading !== 'device_type'
+                  && reportParameters.district !== 'all'">
+                  Нет данных для отображения
+            </span>
+
+            <span class="small-spinner-wrapper"
+                  *ngIf="filterDataLoading === 'device_type' && reportParameters.district !== 'all'">
+              <mat-progress-spinner
+                [diameter]="40"
+                class="spinner-centered spinner-absolute spinner-small"
+                color="primary"
+                mode="indeterminate"
+                value="60">
+              </mat-progress-spinner>
+            </span>
+            <mat-form-field class="criterion-inner-block"
+                            *ngIf="(!reportParameters.device_type || reportParameters.district === 'all' || (sectors && sectors.length > 0)) && filterDataLoading !== 'device_type'">
+              <mat-select id="sector"
+                          placeholder="Выберите участок"
+                          [(ngModel)]="reportParameters.sector"
+                          (selectionChange)="getNextCriterion('sector')">
+                <mat-option value="all">Все</mat-option>
+                <mat-option *ngFor="let sector of sectors" [value]="sector">{{sector}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div>
+          <div class="criterion-inner">
+            <mat-label class="criterion-label criterion-inner-block" for="date">
+              <span>Выбор периода</span>
+            </mat-label>
+            <mat-form-field class="date-picker-input year">
+              <mat-select placeholder="Год" [(ngModel)]="selectedYear" name="year" (selectionChange)="changeDate()">
+                <mat-option *ngFor="let year of years" [value]="year">
+                  {{year}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="date-picker-input month">
+              <mat-select placeholder="Месяц" [(ngModel)]="selectedMonth" name="month" (selectionChange)="changeDate()">
+                <mat-option *ngFor="let month of months" [value]="month">
+                  {{month.viewValue}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div>
+          <button mat-raised-button color="primary"
+                  class="btn-report"
+                  [disabled]="!checkReadyForReport()"
+                  (click)="getReport()"
+          >Сформировать<br>отчет
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-progress-bar mode="indeterminate" *ngIf="statisticsDataLoading"></mat-progress-bar>
+
+  <div id="statistics-wrapper" *ngIf="statisticsData && !statisticsDataLoading">
+
+    <div class="statistic-item">
+      <span>Всего приборов учета: </span>
+      <span>{{statisticsData.devices_total}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Из них, рабочих: </span>
+      <span>{{statisticsData.devices_worked}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Неисправны: </span>
+      <span>{{statisticsData.devices_not_worked}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Неисправны (подтверждено): </span>
+      <span>{{statisticsData.devices_not_worked_confirm}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Похищено: </span>
+      <span>{{statisticsData.devices_absent}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Похищено (подтверждено): </span>
+      <span>{{statisticsData.devices_absent_confirm}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Новые: </span>
+      <span>{{statisticsData.devices_new}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Замененные: </span>
+      <span>{{statisticsData.devices_replaced}}</span>
+    </div>
+
+    <div class="statistic-item">
+      <span>Снятие выполнено: </span>
+      <span>{{statisticsData.samples_ready}}</span>
+    </div>
+
+  </div>
+
+  <div id="reports-content" class="container-fluid" *ngIf="reportDataLoading || dataForReport[0]">
+    <mat-progress-spinner
+      class="spinner-centered spinner-absolute"
+      *ngIf="reportDataLoading"
+      color="primary"
+      mode="indeterminate"
+      value="60">
+    </mat-progress-spinner>
+    <div class="report-table-wrapper" *ngIf="dataForReport[0]">
+      <mat-paginator [length]="pagination.length"
+                     [pageSize]="pagination.pageSize"
+                     [pageSizeOptions]="pagination.pageSizeOptions"
+                     [pageIndex]="pagination.pageIndex"
+                     (page)="pageEvent = changeView($event)">
+      </mat-paginator>
+      <table id="rep-table">
+        <thead>
+        <tr>
+          <th (click)="sortColumn('district')" class="sortable">Район
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'district'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('location_type')" class="sortable">Расположение
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'location_type'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('location_name')" class="sortable">Название
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'location_name'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th>Номер дома</th>
+          <th>Номер Секции</th>
+          <th>Тип устройства</th>
+          <th (click)="sortColumn('sector')" class="sortable">Участок
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'sector'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('bill_number')" class="sortable">Номер счета
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'bill_number'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('serial_number')" class="sortable">Серийный №
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'serial_number'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('name')" class="sortable">Название устройства
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'name'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('last_state')" class="sortable">Состояние
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'last_state'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th>Время последнего<br>изменения состояния</th>
+          <th>Предыдущее значение</th>
+          <th>Время предыдущего замера</th>
+          <th>Текущее значение</th>
+          <th>Текущее время</th>
+          <th>Разность</th>
+          <th (click)="sortColumn('category_105')" class="sortable">Коэффициент<br>трансформации
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_105'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th>Значение по точке</th>
+          <th (click)="sortColumn('category_101')" class="sortable">Характер нагрузки
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_101'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('category_102')" class="sortable">Класс точности
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_102'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('category_103')" class="sortable">Тип энергии
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_103'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('category_104')" class="sortable">Количество фаз
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_104'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('category_106')" class="sortable">Значность
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_106'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('category_107')" class="sortable">Место установки
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_107'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+          <th (click)="sortColumn('category_108')" class="sortable">Количество<br>подъездов
+            <span class="sort-button" *ngIf="reportParameters.sort_field === 'category_108'"
+                  [ngClass]="reportParameters.sort_type === 'asc' ?'sort-asc':'sort-desc'"></span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of dataForReport; let i = index"
+            [ngClass]="{'active': activeItem == i}"
+            (click)="toggleActiveItem(i);"
+            (dblclick)="openRowModalWindow(rowDetails, row, i)">
+          <td>{{row.district.value}}</td>
+          <td class="cell-centered">{{row.location.value}}</td>
+          <td>{{row.loc_name.value}}</td>
+          <td class="cell-centered">{{row.building.value}}</td>
+          <td class="cell-centered">{{row.building_section.value}}</td>
+          <td class="cell-centered">
+                  <span
+                    class="report-device-icon"
+                    [ngClass]="{
+                      'rep-energy-icon': row.device.device_type.key == 10,
+                      'rep-cold-water-icon': row.device.device_type.key == 20,
+                      'rep-hot-water-icon': row.device.device_type.key == 30,
+                      'rep-gas-icon': row.device.device_type.key == 40,
+                      'rep-hiting-icon': row.device.device_type.key == 50
+                    }"
+                    matTooltip="{{row.device.device_type.value}}"
+                  ></span>
+          </td>
+          <td class="cell-centered">{{row.device.sector}}</td>
+          <td class="cell-centered">{{row.device.bill_number}}</td>
+          <td class="cell-centered">{{row.device.serial_number}}</td>
+          <td class="cell-centered">{{row.device.name}}</td>
+          <td class="cell-centered">
+            {{deviceStateToString(row.device.last_state)}}
+          </td>
+          <td class="cell-centered">{{row.device.last_state_time}}</td>
+          <td class="cell-right">{{row.value_before}}</td>
+          <td class="cell-centered">{{row.time_before}}</td>
+          <td class="cell-right">{{row.value_now}}</td>
+          <td class="cell-centered">{{row.time_now}}</td>
+          <td class="cell-right">{{row.differ}}</td>
+          <td class="cell-centered">{{row.transformationCoefficient.value}}</td>
+          <td class="cell-right">{{row.pointValue}}</td>
+          <td class="cell-centered">{{row.consumer_type}}</td>
+          <td class="cell-centered">{{row.accuracyClass.value}}</td>
+          <td class="cell-centered">{{row.energyType.value}}</td>
+          <td class="cell-centered">{{row.phaseQuantity.value}}</td>
+          <td class="cell-centered">{{row.signs_amount}}</td>
+          <td class="cell-centered">{{row.deploymentPlace.value}}</td>
+          <td class="cell-centered">{{row.entranceQuantity.value}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--<app-reports-management [report]="reportExist" [filters]="reportParameters" [additionFilters]="newReportValue">-->
+
+  <!--</app-reports-management>-->
+  <ng-template #rowDetails>
+    <div class="device-info">
+      <p>{{selectedDevice.address}}</p>
+      <div class="desc-holder">
+        <p *ngIf="selectedDevice.type">{{'Тип ПУ: ' + selectedDevice.type}}</p>
+        <p *ngIf="selectedDevice.name">{{'Описание: ' + selectedDevice.name}}</p>
+        <p *ngIf="selectedDevice.device_number">{{'№ ПУ: ' + selectedDevice.device_number}}</p>
+        <p *ngIf="selectedDevice.bill_number">{{'Лицевой счет: ' + selectedDevice.bill_number}}</p>
+      </div>
+      <mat-dialog-content>
+        <div class="details-tabs">
+          <mat-tab-group>
+            <mat-tab label="Состояния">
+              <table class="details-table">
+                <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Состояние</th>
+                  <th>Юзер</th>
+                  <th>Комментарий</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let state of selectedDevice.device_states">
+                  <td>
+                    {{state.time | date: 'MM:HH dd/MM/yy'}}
+                  </td>
+                  <td>{{selectedDevice.state}}</td>
+                  <td>
+                    {{state.user_id || '-'}}
+                  </td>
+                  <td>
+                    <button mat-raised-button
+                            color="primary"
+                            class="compact-btn"
+                            [disabled]="!state.comment"
+                            (click)="openCommentPreviewDialog(previewDialog, state.comment)">
+                      <span matTooltip="Комментарий" matTooltipPosition="left" class="icon-24 comment-icon"></span>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" *ngIf="!selectedDevice.device_states && deviceInfoLoaded">Нет состояний</td>
+                </tr>
+                </tbody>
+              </table>
+              <!-- <button (click)="openPreviwDialog(previewDialog)">Test preview</button> -->
+            </mat-tab>
+            <mat-tab label="Замеры">
+              <table class="details-table">
+                <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Значение</th>
+                  <th>Юзер</th>
+                  <th>Фото</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let sample of selectedDevice.samples">
+                  <td>
+                    {{sample.sample_time | date: 'MM:HH dd/MM/yy'}}
+                  </td>
+                  <td>{{sample.value}}</td>
+                  <td>{{sample.user_id}}</td>
+                  <td>
+                    <button mat-raised-button
+                            color="primary"
+                            class="compact-btn"
+                            (click)="openPhotoPreviwDialog(sample, selectedDevice.node_id, selectedDevice.device_id)">
+                      <span matTooltip="Фото" matTooltipPosition="left" class="icon-24 photo-icon-inverted"></span>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" *ngIf="!selectedDevice.samples && deviceInfoLoaded">Нет замеров</td>
+                </tr>
+                </tbody>
+              </table>
+            </mat-tab>
+            <mat-progress-spinner
+              [diameter]="40"
+              class="spinner-centered spinner-absolute spinner-small"
+              color="primary"
+              mode="indeterminate"
+              *ngIf="deviceInfoLoading"
+              value="60">
+            </mat-progress-spinner>
+          </mat-tab-group>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button
+          mat-raised-button
+          class="pull-right"
+          (click)="closeDialog()">OK
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </ng-template>
+  <ng-template #previewDialog>
+    <mat-dialog-content>
+      <p>{{selectedComment}}</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button
+        mat-raised-button
+        class="pull-right"
+        (click)="closePreviewDialog()">OK
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+</div>

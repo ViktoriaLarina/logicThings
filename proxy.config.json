@@ -1,0 +1,8 @@
+{
+  "/api/*": {
+    "target": " https://develop.lothings.io/",
+    "secure": false,
+    "logLevel":"debug",
+    "changeOrigin": true
+  }
+}

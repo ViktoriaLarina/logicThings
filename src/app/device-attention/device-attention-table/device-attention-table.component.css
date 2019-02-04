@@ -1,0 +1,51 @@
+.empty-list-txt {
+  padding-left: 5px;
+  font-size: 20px;
+}
+
+table {
+  text-align: left;
+  width: 100%;
+  font-size: 14px;
+}
+
+td, th {
+  vertical-align: top;
+  border: 1px solid #c2c2c2;
+  padding: 3px;
+  white-space: nowrap;
+}
+
+th {
+  color: #ffffff;
+  background: #3f51b5;
+  font-weight: 500;
+  position: relative;
+  min-width: 85px;
+  padding: 0.5em 20px;
+}
+
+td {
+  cursor: pointer;
+  background: #fff;
+  padding: 5px 10px;
+}
+
+tr:hover td {
+  background: #eaeaea;
+border-bottom: 2px solid #3f51b5;
+  border-top: 2px solid #3f51b5;
+}
+
+tr:hover td:first-child {
+  border-left: 2px inset #3f51b5;
+}
+
+tr:hover td:last-child {
+  border-right: 2px inset #3f51b5;
+}
+
+.title-txt {
+  font-weight: 600;
+}
+

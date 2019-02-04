@@ -1,0 +1,120 @@
+<div>
+  <div class="col-8 add-info-wrapper" >
+    <h2>Создание узла</h2>
+    <h2 *ngIf="!currentNode.node_type">Управляющая компания</h2>
+    <h2 *ngIf="currentNode.node_type === 10">Дом</h2>
+    <h2 *ngIf="newNode.node_type === 30">Подъезд</h2>
+    <h2 *ngIf="newNode.node_type === 40">Квартира</h2>
+    <h2 *ngIf="newNode.node_type === 50">Офис</h2>
+    <div>
+      <h1>{{newNode.name}}</h1>
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Название" type="text" [(ngModel)]="newNode.name">
+      </mat-form-field>
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Описание" type="text" [(ngModel)]="newNode.description">
+      </mat-form-field>
+      <div *ngIf="!currentNode.node_type">
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Страна" type="text" [(ngModel)]="newNodeValues.country.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Город" type="text" [(ngModel)]="newNodeValues.city.name">
+        </mat-form-field>
+      </div>
+      <div *ngIf="currentNode.node_type === 10">
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Район" type="text" [(ngModel)]="newNodeValues.district.name">
+        </mat-form-field>
+
+        <mat-select placeholder="Расположение" [(ngModel)]="newNodeValues.type.name">
+          <mat-option value="улица">улица</mat-option>
+          <mat-option value="проспект">проспект</mat-option>
+          <mat-option value="переулок">переулок</mat-option>
+          <mat-option value="проезд">проезд</mat-option>
+          <mat-option value="бульвар">бульвар</mat-option>
+          <mat-option value="шоссе">шоссе</mat-option>
+          <mat-option value="въезд">въезд</mat-option>
+          <mat-option value="площадь">площадь</mat-option>
+        </mat-select>
+
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Название ({{newNodeValues.type.name}})" type="text" [(ngModel)]="newNodeValues.name.name">
+        </mat-form-field>
+
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Номер дома" type="text" [(ngModel)]="newNodeValues.houseNumber.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Секция" type="text" [(ngModel)]="newNodeValues.section.name">
+        </mat-form-field>
+      </div>
+      <div *ngIf="currentNode.node_type === 20 && !newNode.node_type">
+        <div class="mat-input-wrapper">
+          <span>Какой узел создать?</span>
+          <mat-select placeholder="Выберите узел" [(ngModel)]="newNode.node_type">
+            <mat-option value="30">Подъезд</mat-option>
+            <mat-option value="40">Квартира</mat-option>
+            <mat-option value="50">Офис</mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div *ngIf="newNode.node_type === '30'">
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Номер подъезда" type="text" [(ngModel)]="newNodeValues.entranceNumber.name">
+        </mat-form-field>
+      </div>
+      <div *ngIf="currentNode.node_type === 30 && !newNode.node_type">
+        <div class="mat-input-wrapper">
+          <span>Какой узел создать?</span>
+          <mat-select placeholder="Выберите узел" [(ngModel)]="newNode.node_type">
+            <mat-option value="40">Квартира</mat-option>
+            <mat-option value="50">Офис</mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div *ngIf="newNode.node_type === '40'">
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Номер квартиры" type="text" [(ngModel)]="newNodeValues.apartmentNumber.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Фамилия" type="text" [(ngModel)]="newNodeValues.lastName.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Имя" type="text" [(ngModel)]="newNodeValues.firstName.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Отчество" type="text" [(ngModel)]="newNodeValues.patronymic.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Номер счета" type="text" [(ngModel)]="newNodeValues.accountNumber.name">
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="newNode.node_type === '50'">
+        <div *ngIf="newNode.node_type === '50'">
+          <mat-form-field class="mat-input-wrapper">
+            <input matInput placeholder="Номер Офиса" type="text" [(ngModel)]="newNodeValues.officeNumber.name">
+          </mat-form-field>
+        </div>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Фамилия" type="text" [(ngModel)]="newNodeValues.lastName.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Имя" type="text" [(ngModel)]="newNodeValues.firstName.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Отчество" type="text" [(ngModel)]="newNodeValues.patronymic.name">
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Номер счета" type="text" [(ngModel)]="newNodeValues.accountNumber.name">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="button-wrapper">
+      <button mat-raised-button color="primary" (click)="close()">Отменить</button>
+      <button mat-raised-button color="disabled" *ngIf="!checkNode()">Создать</button>
+      <button mat-raised-button color="primary" *ngIf="checkNode()" (click)="create()">Создать</button>
+    </div>
+  </div>
+</div>

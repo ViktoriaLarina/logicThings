@@ -1,0 +1,73 @@
+form {
+  overflow: hidden;
+  margin: 15px;
+  font-size: 16px;
+}
+
+mat-select {
+  width: 250px;
+}
+
+input {
+  border: 0;
+}
+
+#edit-role-user {
+  margin-bottom: 17.5px;
+}
+
+input.ng-touched.ng-dirty.ng-invalid ~ .error-text {
+  visibility: visible;
+}
+
+.error-text {
+  visibility: hidden;
+  color: #b94a48;
+  font-size: 12px;
+  display: block;
+  line-height: 18px;
+  overflow: hidden;
+}
+
+.error-message {
+  color: #b94a48;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+}
+
+.mat-input-wrapper {
+  display: block;
+  width: 500px;
+  margin: 0 50px;
+}
+
+.mat-input-wrapper input {
+  text-align: left;
+}
+
+label {
+  color: darkgrey;
+  font-weight: 600;
+  display: block;
+  text-align: left;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+

@@ -1,0 +1,16 @@
+<h2 mat-dialog-title class="text-center font-weight-bold">Удаление показаний по устройству</h2>
+<mat-dialog-content>
+  <p class="text-center">Показания по устройству {{ data.device.name }} с серийным № {{ data.device.serial_number }}
+    на {{ data.time | date:"HH:mm dd.MM.yyyy" }} будут удалены</p>
+  <p class="text-center text-danger font-weight-bold mb-0">Внимание!</p>
+  <p class="text-center text-danger">Отменить удаление будет невозможно!</p>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center">
+  <button
+    mat-raised-button
+    mat-dialog-close>Отменить</button>
+  <button
+    mat-raised-button
+    color="disabled"
+    [mat-dialog-close]="true">Удалить</button>
+</mat-dialog-actions>

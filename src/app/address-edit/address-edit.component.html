@@ -1,0 +1,81 @@
+<div>
+  <div class="col-8 add-info-wrapper">
+    <h2>Редактирование узла</h2>
+    <h2>{{currentNode.name}}</h2>
+    <br>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Название" type="text" [(ngModel)]="currentNode.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Описание" type="text" [(ngModel)]="currentNode.description">
+    </mat-form-field>
+    <div *ngIf="currentNode.node_type === 10">
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Страна" type="text" [(ngModel)]="currentNodeValues.country.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Город" type="text" [(ngModel)]="currentNodeValues.city.name">
+    </mat-form-field>
+    </div>
+    <div *ngIf="currentNode.node_type === 20">
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Район" type="text" [(ngModel)]="currentNodeValues.district.name">
+      </mat-form-field>
+      <mat-select placeholder="Расположение" [(ngModel)]="currentNodeValues.type.name">
+        <mat-option value="улица">улица</mat-option>
+        <mat-option value="проспект">проспект</mat-option>
+        <mat-option value="переулок">переулок</mat-option>
+        <mat-option value="проезд">проезд</mat-option>
+        <mat-option value="бульвар">бульвар</mat-option>
+        <mat-option value="шоссе">шоссе</mat-option>
+        <mat-option value="въезд">въезд</mat-option>
+        <mat-option value="площадь">площадь</mat-option>
+      </mat-select>
+
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Название ({{currentNodeValues.type.name}})" type="text" [(ngModel)]="currentNodeValues.name.name">
+      </mat-form-field>
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Номер дома" type="text" [(ngModel)]="currentNodeValues.houseNumber.name">
+      </mat-form-field>
+
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Секция" type="text" [(ngModel)]="currentNodeValues.section.name">
+      </mat-form-field>
+    </div>
+    <div *ngIf="currentNode.node_type === 30">
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Номер подъезда" type="text" [(ngModel)]="currentNodeValues.entranceNumber.name">
+      </mat-form-field>
+    </div>
+    <div *ngIf="currentNode.node_type > 30">
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Фамилия" type="text" [(ngModel)]="currentNodeValues.lastName.name">
+      </mat-form-field>
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Имя" type="text" [(ngModel)]="currentNodeValues.firstName.name">
+      </mat-form-field>
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Отчество" type="text" [(ngModel)]="currentNodeValues.patronymic.name">
+      </mat-form-field>
+      <br>
+      <div *ngIf="currentNode.node_type === 40">
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Номер квартиры" type="text" [(ngModel)]="currentNodeValues.apartmentNumber.name">
+        </mat-form-field>
+      </div>
+      <div *ngIf="currentNode.node_type === 50">
+        <mat-form-field class="mat-input-wrapper">
+          <input matInput placeholder="Номер Офиса" type="text" [(ngModel)]="currentNodeValues.officeNumber.name">
+        </mat-form-field>
+      </div>
+      <mat-form-field class="mat-input-wrapper">
+        <input matInput placeholder="Номер счета" type="text" [(ngModel)]="currentNodeValues.accountNumber.name">
+      </mat-form-field>
+    </div>
+    <div class="button-wrapper">
+      <button mat-raised-button color="primary" (click)="close()">Отменить</button>
+      <button mat-raised-button color="primary" (click)="save()">Сохранить</button>
+    </div>
+  </div>
+</div>

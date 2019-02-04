@@ -1,0 +1,39 @@
+.arrow-right {
+  /*background: url('./assets/img/download-3f51b5-bg.png') center center no-repeat;*/
+  background-size: cover;
+}
+.arrow-down {
+  /*background: url('./assets/img/download-3f51b5-bg.png') center center no-repeat;*/
+  background-size: cover;
+}
+.mat-input-wrapper {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}
+.mat-input-wrapper input {
+  text-align: left;
+}
+.mat-form-field-infix label {
+  text-align: left;
+}
+.mat-input-wrapper > span {
+  text-align: center;
+  display: block;
+}
+.mat-select {
+  width: calc(100% - 200px);
+  margin-left: 1em;
+}
+.add-info-wrapper {
+  padding: 1em 2em 0;
+}
+span.button-wrapper {
+  display: inline-block;
+  width: 70%;
+}
+.mat-input-wrapper, .mat-select {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}

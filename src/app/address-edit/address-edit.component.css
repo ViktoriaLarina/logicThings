@@ -1,0 +1,19 @@
+.add-info-wrapper {
+  padding: 1em 2em 0;
+}
+.mat-input-wrapper {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}
+.mat-input-wrapper input {
+  text-align: left;
+}
+.mat-form-field-infix label {
+  text-align: left;
+}
+.mat-input-wrapper, .mat-select {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}

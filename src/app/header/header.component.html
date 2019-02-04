@@ -1,0 +1,49 @@
+<header class="fixed-top" id="header" [ngClass]="{'no-sidebar-page': (router.url === '/home/reports' || router.url === '/home/users' || router.url === '/home/device-attention')}">
+  <nav class="navbar navbar-dark navbar-custom">
+      <div class="chain navbar-expand-lg">
+      <button id="custom-expand" class="navbar-toggler navbar-toggler-left" (click)="expandAbonents()">
+        <span class="navbar-toggler-icon side-btn-bg"></span>
+      </button>
+      </div>
+      <div class="chain header-user-info">
+        <div class="header-user-name" *ngIf="router.url === '/home/subscribers'">Абоненты</div>
+        <div class="header-user-name" *ngIf="router.url === '/home/devices'">Устройства</div>
+        <div class="header-user-name" *ngIf="router.url === '/home/user-assign'">Права пользователей</div>
+        <div class="header-user-name" *ngIf="router.url === '/home/users'">Пользователи</div>
+        <!-- <div class="header-user-name" *ngIf="router.url === '/home/map'">Карта</div> -->
+        <div class="header-user-name" *ngIf="router.url === '/home/device-attention'">Устройства требующие внимание</div>
+        <div class="header-user-name" *ngIf="router.url === '/home/notices'">Уведомления</div>
+        <div class="header-user-name" *ngIf="router.url === '/home/reports'">Отчетность</div>
+      </div>
+    <div class="chain header-user-name">{{user.first_name || ""}} {{user.last_name || ""}}</div>
+
+    <div class="chain navbar-expand-md">
+
+        <button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <nav mat-tab-nav-bar>
+            <a mat-tab-link
+               *ngFor="let link of navLinks"
+               matTooltip="{{link.tooltip}}" matTooltipPosition="above"
+               [routerLink]="[link.path]"
+               routerLinkActive
+               #rla="routerLinkActive"
+               [routerLinkActiveOptions]="{exact: true}"
+               class="header-nav-links"
+               [active]="rla.isActive">
+              <span class="icon-24" [ngClass]="link.iconClass"></span>
+            </a>
+          </nav>
+          <button
+            mat-icon-button
+            matTooltip="Выход" matTooltipPosition="below"
+            class="logout-btn"
+            (click)="getLogout($event)">
+            <span class="icon-24 logout-icon"></span>
+          </button>
+        </div>
+      </div>
+  </nav>
+</header>

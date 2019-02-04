@@ -1,0 +1,111 @@
+.devices-container {
+  padding: 1em;
+  background-color: rgba(245, 245, 245, 1);
+}
+.devices-wrapper {
+  height: 162px;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.devices-row {
+  height: 142px;
+}
+.devices-row.active {
+  border-bottom: 1px solid rgba(0,0,0,.12);
+}
+.loader-block {
+  margin: 0 0 -20px;
+}
+.loader-block p{
+  margin: 0;
+  font-size: 20px;
+  padding: 15px 0 0;
+}
+.devices-item {
+  float: left;
+  height: 140px;
+  min-width: 140px;
+  text-align: center;
+  padding: 0 1em;
+  border-bottom: 5px solid transparent;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  position: relative;
+}
+.devices-item.is-active {
+  border-bottom: 5px solid #3f51b5;
+  background: #d8dcf0;
+}
+.add-device-item {
+  padding-top: 0.5em;
+}
+.device-icon {
+  display: block;
+  margin: 0.5em auto;
+  padding: 5px 12px 0;
+  width: 50px;
+  height: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+}
+/*.add-device-icon {*/
+  /*display: block;*/
+  /*margin: 0.5em auto;*/
+  /*width: 50px;*/
+  /*height: 50px;*/
+  /*-webkit-border-radius: 3px;*/
+  /*-moz-border-radius: 3px;*/
+  /*border-radius: 3px;*/
+  /*background: #3f51b5;*/
+  /*background-image: url('../../assets/img/add-device-icon-3f51b5.png');*/
+  /*background-size: 80% 80%;*/
+  /*background-position: center center;*/
+  /*background-repeat: no-repeat;*/
+  /*border: 1px solid #3f51b5;*/
+/*}*/
+.device-text {
+  white-space: nowrap;
+  text-align: center;
+  margin: 0;
+}
+.devices-item:hover {
+  background: #d8dcf0;
+  border-bottom: 5px solid #3f51b5;
+}
+.devices-item:focus, .devices-item:active {
+  border-bottom: 5px solid #3f51b5;
+}
+.devices-wrapper.checked {
+  overflow-x: auto;
+}
+::ng-deep .devices-container .mat-ink-bar {
+  display: none;
+}
+::ng-deep .mat-tab-label {
+  opacity: 1 !important;
+}
+::ng-deep .mat-tab-label-active {
+  background: transparent;
+  color: #3d3780;
+  font-weight: 700;
+}
+.status-position {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  left: 10px;
+  top: 10px;
+}
+.status-on{
+  background-color: #00e600;
+}
+.status-off{
+  background-color: red;
+}
+.status, .status-replaced{
+  background-color: #a1a1a1;
+  border: 1px solid #6e6e6e;
+}

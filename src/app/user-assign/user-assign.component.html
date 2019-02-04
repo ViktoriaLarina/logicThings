@@ -1,0 +1,82 @@
+<div>
+  <app-add-user-assign
+    [assignedUsers]="users"
+    *ngIf="addingUserAssign"
+    (onCloseAddAssign)="onCloseAddAssign($event)"></app-add-user-assign>
+  <div
+    *ngFor="let item of users"
+    class="device-card-wrapper"
+    [ngClass]="{ 'is-active': currentUser.user_id === item.user_id }">
+      <mat-card  (click)="chooseUser(item)">
+      <mat-card-header></mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-3">
+            <p>
+              <span class="rep-params-name">Фамилия:</span>
+              <span *ngIf="item.user_last_name">{{item.user_last_name}}</span>
+              <span *ngIf="!item.user_last_name">Нет данных</span>
+            </p>
+            <p>
+              <span class="rep-params-name">Имя:</span>
+              <span *ngIf="item.user_first_name">{{item.user_first_name}}</span>
+              <span *ngIf="!item.user_first_name">Нет данных</span>
+            </p>
+            <p>
+              <span class="rep-params-name">Отчество:</span>
+              <span *ngIf="item.user_father_name">{{item.user_father_name}}</span>
+              <span *ngIf="!item.user_father_name">Нет данных</span>
+            </p>
+          </div>
+
+          <div class="col-6" >
+            <div>
+              <span class="rep-params-name">Логин:</span>
+              <span *ngIf="item.user_login">{{item.user_login}}</span>
+            </div>
+            <div>
+              <span class="rep-params-name">Права доступа:</span>
+              <div *ngIf="item.user_id !== dataForUpdateAssign.user_id">
+                <p *ngIf="item.access_mask === 0">Только текущий узел и приборы на нем</p>
+                <p *ngIf="item.access_mask && item.access_mask === 1">Текущий узел, все дочерние узлы и связанные приборы</p>
+                <p *ngIf="!item.access_mask && item.access_mask !== 0">Нет данных</p>
+              </div>
+              <div *ngIf="updatingUserAssign && item.user_id === dataForUpdateAssign.user_id">
+                <mat-select placeholder="Права пользователя"
+                            [(ngModel)]="dataForUpdateAssign.access_mask"
+                            name="usersAccessList">
+                  <mat-option *ngFor="let item of accessRights"
+                              [value]=item.value>
+                    <span class="user-data">{{item.text}}</span>
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <p *ngIf="!(updatingUserAssign && item.user_id === dataForUpdateAssign.user_id)">
+              <button mat-raised-button
+                      color="primary"
+                      class="state-button"
+                      (click)="changeAccess(item, $event)">Изменить доступ</button>
+            </p>
+            <div *ngIf="updatingUserAssign && item.user_id === dataForUpdateAssign.user_id">
+              <div>
+                <button mat-raised-button
+                         color="primary"
+                         class="state-button"
+                         (click)="saveAccessChanges()">Сохранить</button>
+              </div>
+              <div>
+                <button mat-raised-button
+                        color="primary"
+                        class="state-button"
+                        (click)="cancelAccessChanges()">Отменить</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

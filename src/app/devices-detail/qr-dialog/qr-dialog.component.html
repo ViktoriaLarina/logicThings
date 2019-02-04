@@ -1,0 +1,17 @@
+<div style="position: relative">
+  <div class="close-cross" (click)="closeDialog()"></div>
+  <qr-code id="qr"
+           [value]="data.qrString"
+           [size]="540"
+           [level]="'M'"
+           [padding]="120"
+           [canvas]="true"></qr-code>
+  <p class="align">
+    <button mat-raised-button
+            color="primary"
+            class="state-button"
+            (click)="saveQR()">
+      Сохранить код
+    </button>
+  </p>
+</div>

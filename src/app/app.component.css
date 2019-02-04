@@ -1,0 +1,22 @@
+.alerts-wrapper {
+  z-index: 1500;
+}
+@media (min-width:768px) and (min-device-width:768px) {
+  .alerts-wrapper {
+    width: 50%;
+    right: 10%;
+    left: auto;
+  }
+}
+@media (min-width:992px) and (min-device-width:992px) {
+  .alerts-wrapper {
+    width: 40%;
+  }
+}
+@media (min-width:1200px) and (min-device-width:1200px) {
+  .alerts-wrapper {
+    width: 30%;
+    right: 10%;
+    left: auto;
+  }
+}

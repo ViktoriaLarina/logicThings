@@ -1,0 +1,8 @@
+.main-content {
+  padding-top: 48px;
+}
+@media (min-width: 780px) and (min-device-width: 780px) {
+  .main-content {
+    padding-top: 48px;
+  }
+}

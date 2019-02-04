@@ -1,0 +1,15 @@
+<h2 mat-dialog-title class="text-center font-weight-bold">Удаление пользователя</h2>
+<mat-dialog-content>
+  <p class="text">Вы уверены, что хотите удалить пользователя</p>
+  <p class="text text-name">{{data.first_name + ' ' + data.father_name + ' ' + data.last_name + '?'}}</p>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center">
+  <button
+    mat-raised-button
+    [mat-dialog-close]="false">Отменить</button>
+  <button
+    mat-raised-button
+    color="disabled"
+    [mat-dialog-close]="true">Удалить</button>
+</mat-dialog-actions>
+

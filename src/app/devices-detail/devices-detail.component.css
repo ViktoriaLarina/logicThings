@@ -1,0 +1,59 @@
+.device-card-wrapper.is-active .mat-card {
+  background: rgba(250,250,250,0.5);
+  border: 1px solid #3f51b5;
+}
+.device-card-wrapper .mat-card {
+  padding: 1em;
+  box-shadow: inset 0 0 2px 2px #eeeeee;
+}
+.mat-card-header {
+  padding: 5px;
+}
+.mat-card-header p {
+  margin: 0;
+}
+.mat-card-header p span {
+  margin: 0 2px;
+}
+.info-chunk {
+  display: inline-block;
+  padding: 5px;
+  width: 24.5%;
+  text-align: left;
+  vertical-align: top;
+}
+.info-chunk > span {
+  display: block;
+}
+.status-position {
+  /*position: absolute;*/
+  width: 120px;
+  /*height: 30px;*/
+  border-radius: 2px;
+  text-align: center;
+  padding: 4px 0;
+  color: white;
+  margin-bottom: 5px;
+}
+.status-on{
+  background-color: #00cd00;
+  border: 1px solid #6e6e6e;
+
+}
+.status-off{
+  background-color: #e60000;
+  border: 1px solid #6e6e6e;
+
+}
+.status {
+  background-color: #a1a1a1;
+  border: 1px solid #6e6e6e;
+}
+.state-button {
+  margin-bottom: 10px;
+  width: 170px;
+  font-size: 0.95em;
+}
+::ng-deep .mat-card-header-text{
+  width: 100%;
+}

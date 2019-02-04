@@ -1,0 +1,119 @@
+<div class="login-form-container">
+  <div class="column col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-8 clearfix">
+    <div class="login-image-wrapper">
+      <div class="logo">
+        <a href="https://lothings.io/" target="_blank">
+          <img src="../../assets/img/white_logo_meter.png" alt="LoThings - беспроводная связь для интернет вещей">
+        </a>
+      </div>
+    </div>
+    <div class="login-form-wrapper">
+      <h2 class="title">Регистрация</h2>
+      <p class="form-text sub-title">Добро пожаловать на страницу регистрации!</p>
+
+      <form class="form-group" [formGroup]="newUserInfo">
+        <div class="form-group">
+
+          <mat-form-field class="mat-input-wrapper" id="reg-login-wrapper">
+            <label for="reg-login">Login*</label>
+            <input matInput
+                   name="reg-login"
+                   type="text"
+                   id="reg-login"
+                   formControlName="login">
+            <mat-hint>**телефон в формате 1231234567 (10 цифр)</mat-hint>
+            <span class="error-text" *ngIf="newUserInfo.value.login">Допустимый формат 10 цифр</span>
+          </mat-form-field>
+
+
+          <mat-form-field class="mat-input-wrapper">
+            <label for="reg-email">Email*</label>
+            <input
+              matInput
+              name="reg-email"
+              id="reg-email"
+              formControlName="email">
+            <span class="error-text" *ngIf="newUserInfo.value.email">Укажить корректно email адрес</span>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="mat-input-wrapper">
+            <label for="reg-last-name">Фамилия*</label>
+            <input
+              matInput
+              name="reg-last-name"
+              type="text"
+              id="reg-last-name"
+              formControlName="last_name">
+            <span class="error-text" *ngIf="newUserInfo.value.last_name">Укажить корректно фамилию</span>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="mat-input-wrapper">
+            <label for="reg-name">Имя*</label>
+            <input
+              matInput
+              name="reg-name"
+              type="text" id="reg-name"
+              formControlName="first_name">
+            <span class="error-text" *ngIf="newUserInfo.value.first_name">Укажить корректно имя</span>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="mat-input-wrapper">
+            <label for="reg-patronical">Отчество*</label>
+            <input
+              matInput
+              name="reg-patronical"
+              type="text"
+              id="reg-patronical"
+              formControlName="father_name">
+            <span class="error-text" *ngIf="newUserInfo.value.father_name">Укажить корректно отчество</span>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="mat-input-wrapper">
+            <label for="reg-password">Пароль*</label>
+            <input matInput
+                   name="password-user"
+                   type="password"
+                   id="reg-password"
+                   formControlName="password">
+            <span class="error-text" *ngIf="passwordControl.hasError('minlength')  && !passwordControl.hasError('pattern')">Минимальный пароль 6 символов</span>
+            <span class="error-text" *ngIf="passwordControl.hasError('pattern') && !passwordControl.hasError('minlength')">Пробелы не допустимы</span>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="mat-input-wrapper">
+            <label for="reg-password-repeat">Повторите пароль*</label>
+            <input matInput
+                   name="confirm-password-user"
+                   type="password" id="reg-password-repeat"
+                   formControlName="confirmPassword">
+            <span class="error-text" *ngIf="newUserInfo.value.confirmPassword">Пароли не совпадают</span>
+          </mat-form-field>
+        </div>
+
+      </form>
+
+      <p class="error-message" *ngIf="isErrorShow">Форма содержит недопустимые значения!</p>
+
+      <div class="button-wrapper">
+        <button mat-raised-button color="primary" (click)="sendData()">
+          Зарегистрироваться
+        </button>
+      </div>
+      <div class="links">
+        <p class="form-text">
+          <span class="form-text-small">Уже зарегистрированы?</span>
+          <a class="log-form-link" routerLink="../login">Войти</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

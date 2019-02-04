@@ -1,0 +1,71 @@
+<p class="empty-list-txt" *ngIf="!arrayOfData || arrayOfData.length === 0">Список пуст</p>
+
+<div *ngIf="arrayOfData && arrayOfData.length !== 0">
+  <table>
+    <thead>
+    <tr>
+      <th>Адрес</th>
+      <th>Тип устройства</th>
+      <th>Участок</th>
+      <th>Номер счета</th>
+      <th>Серийный номер</th>
+      <th>Название устройства</th>
+      <th>Состояние</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let device of arrayOfData" (click)="openModalWindow(device)">
+
+      <td>
+
+        <div>
+          <span class="title-txt">район </span>
+          <span>{{device.location_district}}</span>
+        </div>
+
+        <div>
+          <span class="title-txt">{{device.location_type + ' '}}</span>
+          <span>{{device.location_name + ' ' + device.location_number}}</span>
+        </div>
+
+        <div *ngIf="device.location_section">
+          <span class="title-txt">Секция </span>
+          <span>{{device.location_section}}</span>
+        </div>
+
+        <div *ngIf="device.service_company">
+          <span class="title-txt">Обслуживает </span>
+          <span>{{device.service_company}}</span>
+        </div>
+
+      </td>
+      <td>{{ deviceTypes[device.device_type]}}</td>
+      <td>{{device.sector}}</td>
+      <td>{{device.bill_number}}</td>
+      <td>{{device.serial_number}}</td>
+      <td>{{device.name}}</td>
+      <td>
+
+        <div *ngIf="device.last_state">
+          <!--<span class="title-txt">Статус </span>-->
+          <span>{{stateArray[device.last_state].text}}</span>
+        </div>
+
+        <!--<div *ngIf="device.last_state_time">-->
+          <!--<span class="title-txt">Установлен </span>-->
+          <!--<span>{{device.last_state_time | date: 'dd.MM.yyyy HH:mm'}}</span>-->
+        <!--</div>-->
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <mat-paginator *ngIf="isShowPaginator"
+                 [length]="itemsCount"
+                 (page)="setPage($event)"
+                 [pageSize]="itemsPerPage"
+                 [pageIndex]="pageIndex"
+                 [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+</div>

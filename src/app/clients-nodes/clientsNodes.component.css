@@ -1,0 +1,122 @@
+.abonent-node {
+  cursor: pointer;
+}
+.abonent-node.active > .client-node-name {
+  background: #c5cae8;
+}
+.abonent-node > .abonent-node, .abonent-node > .node-loading-status {
+  display: none;
+}
+.abonent-node.expanded > .abonent-node, .abonent-node.expanded > .node-loading-status {
+  display: block;
+}
+.client-node-name:hover {
+  background: #c5cae8;
+}
+.client-node-name {
+  font-size: 18px;
+  margin: 0;
+  padding: 3px 0 8px;
+  line-height: 31px;
+}
+.data-waiting {
+  color: green;
+  margin: 8px 15px;
+}
+.no-child-node {
+  color: #ff9421;
+  margin: 8px 15px;
+}
+.client-node {
+  padding-left: 1.5em;
+}
+.building-node {
+  padding-left: 3em;
+}
+.entrances-node {
+  padding-left: 4.5em;
+}
+.consumer-node {
+  padding-left: 7em;
+}
+.entrances-node.office-name {
+  padding-left: 6.25em;
+}
+.node-name {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 0.5em;
+  width: calc(100% - 65px);
+}
+.compact-btn {
+  width: 36px;
+  min-width: 36px;
+  padding: 0 6px;
+}
+.search {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+/*::ng-deep .mat-form-field-wrapper {*/
+  /*padding-bottom: 10px;*/
+/*}*/
+.mat-input-wrapper {
+  width: 73%;
+}
+.search p {
+  font-size: 0.8em;
+  margin: -10px 0 0 0;
+}
+.search-results {
+  overflow-y: auto;
+  min-height: 200px;
+  /*max-height: 200px;*/
+  height: calc(100vh - 380px);
+  margin: 10px 15px 0 0;
+  background-color: #ffffff;
+  /*border-top: 1px solid #c2c2c2;*/
+  /*border-bottom: 1px solid #c2c2c2;*/
+  box-shadow: 0 1px 10px 1px #d8dcf0;
+  position: relative;
+  overflow-y: hidden;
+  /*padding-right: 15px;*/
+}
+.filters {
+  position: relative;
+  cursor: auto;
+  margin: 0 0 12px;
+  background: #d8dcf0;
+  border-radius: 30px;
+  padding: 3px 36px 3px 30px;
+}
+.filters ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.filters ul li {
+  margin: 0;
+  padding: 3px 0;
+  border-top: 1px solid rgba(0,0,0,.12);
+  font-size: 13px;
+  line-height: 14px;
+  text-align: left;
+}
+.filters ul li:first-child {
+  border: none;
+}
+.filters .clear-filter {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  box-shadow: 1px 1px 4px rgba(0,0,0,.5);
+  background-size: 40% 40%;
+  background-color: #3f51b5;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: -10px 0 0;
+}

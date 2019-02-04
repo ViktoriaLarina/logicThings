@@ -1,0 +1,165 @@
+<h2 mat-dialog-title>Подтверждение статуса устройства</h2>
+<mat-dialog-content>
+
+  <p>{{ 'район ' + newDevice.location_district + ', ' + newDevice.location_type + ' ' + newDevice.location_name + ' '
+    +
+    newDevice.location_number}}</p>
+
+  <p class="error-txt2" *ngIf="isEmptyFields">Не заполнены обязательные поля!</p>
+
+  <div class="inner-wrapper">
+    <p class="hint">старый ПУ</p>
+    <div>
+
+      <div class="item-wrapper">
+        <p class="title-item">наименование ПУ</p>
+        <p>{{oldDevice.name}}</p>
+      </div>
+
+      <div class="item-wrapper description">
+        <p class="title-item">описание</p>
+        <p>{{oldDevice.description}}</p>
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">тип ПУ</p>
+        <p>{{deviceTypes[oldDevice.device_type]}}</p>
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">лиц. счет</p>
+        <p>{{oldDevice.bill_number}}</p>
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">№ ПУ</p>
+        <p>{{oldDevice.serial_number}}</p>
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">значность</p>
+        <p>{{oldDevice.signs_amount}}</p>
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">характер нагрузки</p>
+        <p>{{oldDevice.consumer_type}}</p>
+      </div>
+
+
+      <div class="item-wrapper">
+        <p class="title-item">участок</p>
+        <p>{{oldDevice.sector}}</p>
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">состояние</p>
+        <p class="state-txt" [ngClass]="[stateArray[oldDevice.last_state].cssClass]">
+          {{stateArray[oldDevice.last_state].text}}</p>
+      </div>
+
+      <div [formGroup]="oldDeviceDataindications" class="form">
+
+        <div class="item-wrapper">
+          <p class="title-item">последние показания</p>
+          <input type="text" formControlName="valueIndications">
+        </div>
+
+        <div class="item-wrapper">
+          <p class="title-item">дата показаний</p>
+          <input [owlDateTime]="oldDT" [owlDateTimeTrigger]="oldDT"
+                 formControlName="dateTime">
+          <owl-date-time #oldDT></owl-date-time>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inner-wrapper">
+    <p class="hint">новый ПУ</p>
+    <div [formGroup]="newDeviceData" class="form">
+      <div class="item-wrapper">
+        <p class="title-item">наименование ПУ</p>
+        <input type="text" formControlName="name">
+      </div>
+
+      <div class="item-wrapper description">
+        <p class="title-item">описание</p>
+        <input type="text" formControlName="description">
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">тип ПУ</p>
+        <p>{{deviceTypes[newDevice.device_type]}}</p>
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">лиц. счет</p>
+        <p>{{newDevice.bill_number}}</p>
+      </div>
+
+
+      <div class="item-wrapper">
+        <p class="title-item">№ ПУ</p>
+        <input type="text" formControlName="serialNumber">
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">значность</p>
+        <input type="text" formControlName="signsAmount">
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">характер нагрузки</p>
+        <input type="text" formControlName="consumerType">
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">участок</p>
+        <input type="text" formControlName="sector">
+      </div>
+    </div>
+
+    <div class="item-wrapper">
+      <p class="title-item">состояние</p>
+      <p class="state-txt" [ngClass]="[stateArray[newDevice.last_state].cssClass]">
+        {{stateArray[newDevice.last_state].text}}</p>
+    </div>
+
+    <div [formGroup]="newDeviceDataindications" class="form">
+      <div class="item-wrapper">
+        <p class="title-item">начальные показания</p>
+        <input type="text" formControlName="valueIndications">
+      </div>
+
+      <div class="item-wrapper">
+        <p class="title-item">дата показаний</p>
+        <input [owlDateTime]="newDT" [owlDateTimeTrigger]="newDT"
+               formControlName="dateTime">
+        <owl-date-time #newDT></owl-date-time>
+
+
+      </div>
+    </div>
+  </div>
+
+  <mat-form-field class="description-input" [formGroup]="dataToSendDescription">
+    <input matInput placeholder="Комментарий" type="text" formControlName="description">
+  </mat-form-field>
+  <p class="error-txt" *ngIf="isShowError">Максимальная длина 256 символов!</p>
+</mat-dialog-content>
+
+
+<div class="progress-bar-wrapper" *ngIf="isRequestinProgress">
+  <span>{{progressBarData.text}}</span>
+  <mat-progress-bar [value]="progressBarData.value" color="{{progressBarData.color}}"></mat-progress-bar>
+</div>
+<mat-dialog-actions>
+  <button class="btn-primary margin" (click)="closeDialog()" [disabled]="isDisabledButton">Вернуть</button>
+  <button class="btn-primary" (click)="confirmStatus()" [disabled]="isDisabledButton">Принять</button>
+
+</mat-dialog-actions>
+
+
+
+

@@ -1,0 +1,119 @@
+.report-table-wrapper {
+  padding: 15px;
+  position: relative;
+}
+
+.block-event {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 100;
+  opacity: 0.2;
+}
+
+.top-line {
+  width: 100%;
+  background: #d8dcf0;
+  overflow: hidden;
+}
+
+.btn-add-user {
+  float: right;
+  margin: 5px 20px 5px 0;
+}
+
+table {
+  width: 100%;
+  font-size: 14px;
+}
+
+td, th {
+  border: 1px solid #c2c2c2;
+  padding: 3px;
+  white-space: nowrap;
+}
+
+th {
+  text-align: center;
+  color: #ffffff;
+  background: #3f51b5;
+  font-weight: 500;
+  position: relative;
+  min-width: 85px;
+  padding: 0.5em 20px;
+}
+
+.center-content {
+  text-align: center;
+}
+
+td {
+  background: #fff;
+  padding: 10px;
+}
+
+.action-btn {
+  cursor: pointer;
+}
+
+.activated > td {
+  background: #fff;
+}
+
+.not_activated > td {
+  background: #e8e8e8;
+}
+
+.global_admin {
+  color: darkred;
+  font-weight: 600;
+}
+
+.user {
+  color: #3d3780;
+  font-weight: 600;
+}
+
+.engineer {
+  color: darkgreen;
+  font-weight: 600;
+}
+
+/*------------------button style-------------*/
+.add-wrapper {
+  padding: 0;
+  min-width: 0;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  line-height: 40px;
+  border-radius: 50%;
+}
+
+button {
+  background: none;
+  border: none;
+}
+
+.icon-24 {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btn:hover .edit-info-icon {
+  background: url('../../assets/img/edit-ffffff-bg.png') center center no-repeat;
+  background-size: cover;
+}
+
+.btn:hover .add-info-icon {
+  background: url('../../assets/img/add-ffffff-bg.png') center center no-repeat;
+  background-size: cover;
+}
+
+.btn:hover .cart-icon {
+  background: url('../../assets/img/cart-ffffff-bg.png') center center no-repeat;
+  background-size: cover;
+}

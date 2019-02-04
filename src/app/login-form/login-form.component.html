@@ -1,0 +1,54 @@
+<div class="login-form-container">
+<div class="column col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-8 clearfix" >
+  <div class="login-image-wrapper">
+    <div class="logo">
+      <a href="https://lothings.io/" target="_blank">
+        <img src="../../assets/img/white_logo_meter.png" alt="LoThings - беспроводная связь для интернет вещей">
+      </a>
+    </div>
+  </div>
+  <div class="login-form-wrapper">
+    <h2 class="title">Вход</h2>
+    <p class="form-text sub-title">Добро пожаловать! Введите Ваш логин и пароль</p>
+      <div class="form-group">
+        <span class="icon-24 login-icon"></span>
+        <span class="country-code">+38</span>
+        <mat-form-field class="mat-input-wrapper" id="input-login">
+          <input matInput
+               name="login"
+               type="tel"
+               placeholder="Логин**"
+               pattern="[0-9]{10}"
+               maxlength="10"
+               [(ngModel)]="login">
+        </mat-form-field>
+        <p class="sub-title">**телефон в формате 1231234567 (10 цифр)</p>
+      </div>
+
+      <div class="form-group">
+        <span class="icon-24 password-icon"></span>
+        <mat-form-field class="mat-input-wrapper">
+          <input
+            matInput
+            id="input-password"
+            name="password"
+            type="password"
+            placeholder="Пароль"
+            [(ngModel)]="password">
+        </mat-form-field>
+      </div>
+      <div class="form-group accept-group">
+        <a class="log-form-link" routerLink="../request-password">Забыли пароль?</a>
+      </div>
+      <div class="button-wrapper">
+        <button mat-raised-button color="primary" (click)="getLogin()">Вход</button>
+      </div>
+    <div class="links">
+      <p class="form-text">
+        <span class="form-text-small">Еще нет профиля?</span>
+        <a class="log-form-link" routerLink="/registration">Зарегистрироваться в системе</a>
+      </p>
+    </div>
+  </div>
+</div>
+</div>

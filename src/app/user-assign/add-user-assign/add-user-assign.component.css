@@ -1,0 +1,28 @@
+.mat-card-content p {
+  margin: 0;
+}
+
+.rep-params-name {
+  font-size: 0.9em;
+  font-weight: 700;
+  /*color: #000000;*/
+  margin-right: 1em;
+  display: inline-block;
+  min-width: 75px;
+}
+.state-button {
+  margin-bottom: 10px;
+  width: 170px;
+  font-size: 0.95em;
+}
+.user-data {
+  margin-right: 0.5em;
+}
+::ng-deep .mat-select-trigger {
+  height: 2em;
+  padding: 0 2em;
+}
+::ng-deep .mat-select-content {
+  margin: 0 auto;
+  width: 90%;
+}

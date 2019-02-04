@@ -1,0 +1,28 @@
+<div>
+  <div *ngIf="deviceValues.deviceType === 10">
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Характер нагрузки" type="text" [(ngModel)]="deviceValues.loadCharacteristics.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Класс точности" type="text" [(ngModel)]="deviceValues.accuracyClass.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Тип энергии" type="text" [(ngModel)]="deviceValues.energyType.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Количество фаз" type="text" [(ngModel)]="deviceValues.phaseQuantity.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Коэффициент трансформации" type="text" [(ngModel)]="deviceValues.transformationCoefficient.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Значность" type="text" [(ngModel)]="deviceValues.decimal.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Место установки" type="text" [(ngModel)]="deviceValues.deploymentPlace.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Количество подъездов" type="text" [(ngModel)]="deviceValues.entranceQuantity.name">
+    </mat-form-field>
+  </div>
+</div>

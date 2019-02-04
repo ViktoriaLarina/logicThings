@@ -1,0 +1,61 @@
+/*.add-info-label {*/
+  /*display: block;*/
+/*}*/
+/*.add-info-label span {*/
+  /*width: 39%;*/
+  /*display: inline-block;*/
+/*}*/
+/*.add-info-input {*/
+  /*width: 60%;*/
+  /*display: inline-block;*/
+  /*margin: 0;*/
+  /*padding: .75rem 1.125rem;*/
+  /*background-color: transparent;*/
+  /*border: 0;*/
+  /*border-bottom: 2px solid #c2c2c2;*/
+  /*border-radius: 0;*/
+  /*-webkit-transition: all 0.5s ease;*/
+  /*-moz-transition: all 0.5s ease;*/
+  /*-ms-transition: all 0.5s ease;*/
+  /*-o-transition: all 0.5s ease;*/
+  /*transition: all 0.5s ease;*/
+/*}*/
+/*.add-info-input:focus {*/
+  /*border: 0;*/
+  /*outline: 0;*/
+  /*box-shadow: none;*/
+  /*border-bottom: 2px solid #3f51b5;*/
+/*}*/
+/*.add-info-wrapper {*/
+  /*padding-top: 1em;*/
+  /*margin: 0 auto;*/
+  /*background: rgba(230,230,230,0.1);*/
+  /*box-shadow: 0 0 10px 2px rgba(0,0,0,0.1);*/
+/*}*/
+.add-info-wrapper h2 {
+  text-align: center;
+}
+/*.button-wrapper {*/
+  /*text-align: center;*/
+/*}*/
+/*.button-wrapper button {*/
+  /*display: inline-block;*/
+  /*margin: 1em;*/
+/*}*/
+/*select.add-info-input {*/
+  /*width: auto;*/
+/*}*/
+.mat-input-wrapper, .mat-select {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}
+.mat-input-wrapper input {
+  text-align: left;
+}
+.mat-form-field-infix label {
+  text-align: left;
+}
+.align{
+  text-align: center;
+}

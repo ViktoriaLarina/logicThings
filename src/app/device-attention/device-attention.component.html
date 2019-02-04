@@ -1,0 +1,167 @@
+<div class="main-wrapper">
+
+  <div class="criterion-wrapper">
+    <div class="icon-wrapper" (click)="showHideFilters()">
+    </div>
+    <div class="small-filter" [ngClass]="{hidden : isFiltersVisible, visible : !isFiltersVisible }">
+      <span *ngIf="selectedCompany">{{'УК: ' + selectedCompany}}</span>
+      <span *ngIf="selectedDistrict">{{'Район: ' + (selectedDistrict | selectPipe) }}</span>
+      <span *ngIf="selectedSector">{{'Участок: ' + (selectedSector | selectPipe)}}</span>
+      <span *ngIf="selectedDeviceType">{{'Устройства: ' + (selectedDeviceType | deviceTypesNames)}}</span>
+      <span *ngIf="selectedState">{{'Статус: ' + (selectedState | statusPipe)}}</span>
+    </div>
+    <div class="filter-wrapper" [ngClass]="{hidden : !isFiltersVisible, visible : isFiltersVisible }">
+
+      <div class="criterion-inner">
+
+        <div class="select-wrapper">
+          <mat-label class="criterion-label">
+            <span>Управляющая компания</span>
+          </mat-label>
+          <span class="txt2" *ngIf="companies.length === 0 && !isArrayCompanyLoading">Нет вариантов</span>
+
+          <span class="small-spinner-wrapper"
+                *ngIf="isArrayCompanyLoading">
+                  <mat-progress-spinner
+                    [diameter]="40"
+                    class="spinner-centered spinner-abs spinner-small"
+                    color="primary"
+                    mode="indeterminate"
+                    value="60">
+                  </mat-progress-spinner>
+                </span>
+
+          <mat-form-field *ngIf="companies.length !== 0 && !isArrayCompanyLoading">
+            <mat-select id="management_company"
+                        placeholder="Выберите компанию"
+                        [(ngModel)]="selectedCompany"
+                        (selectionChange)="onCompanyChange()">
+              <mat-option *ngFor="let company of companies" [value]="company">{{company}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="criterion-inner">
+        <div class="disabled" *ngIf="!selectedCompany"></div>
+        <div class="select-wrapper">
+          <mat-label class="criterion-label">
+            <span>Район</span>
+          </mat-label>
+          <span class="txt2"
+                *ngIf="selectedCompany && districts.length === 0 && !isArrayDistrictLoading">Нет вариантов</span>
+
+          <span class="small-spinner-wrapper" *ngIf="isArrayDistrictLoading && selectedCompany">
+            <mat-progress-spinner
+              [diameter]="40"
+              class="spinner-centered spinner-abs spinner-small"
+              color="primary"
+              mode="indeterminate"
+              value="60">
+            </mat-progress-spinner>
+          </span>
+          <mat-form-field
+            *ngIf=" ( (selectedCompany && districts.length !== 0) || !selectedCompany) && !isArrayDistrictLoading">
+            <mat-select id="management_company"
+                        placeholder="Выберите район"
+                        [(ngModel)]="selectedDistrict"
+                        (selectionChange)="onDistrictChange()">
+              <mat-option *ngFor="let district of districts" [value]="district">{{district == ALL_OPTION ? 'Все' :
+                district}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="criterion-inner">
+        <div [ngClass]="{disabled: !selectedDistrict}"></div>
+        <div class="select-wrapper">
+          <mat-label class="criterion-label">
+            <span>Участок</span>
+          </mat-label>
+          <span class="txt2"
+                *ngIf="selectedDistrict && sectors.length === 0 && !isArraySectorLoading">Нет вариантов</span>
+
+          <span class="small-spinner-wrapper"
+                *ngIf="isArraySectorLoading && selectedDistrict">
+                  <mat-progress-spinner
+                    [diameter]="40"
+                    class="spinner-centered spinner-abs spinner-small"
+                    color="primary"
+                    mode="indeterminate"
+                    value="60">
+                  </mat-progress-spinner>
+                </span>
+
+          <mat-form-field
+            *ngIf="((selectedDistrict && sectors.length !== 0) || !selectedDistrict) && !isArraySectorLoading">
+            <mat-select id="management_company"
+                        placeholder="Выберите участок"
+                        [(ngModel)]="selectedSector"
+                        (selectionChange)="onSectorChange()">
+              <mat-option *ngFor="let sector of sectors" [value]="sector">{{sector == ALL_OPTION ? 'Все' : sector}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="criterion-inner">
+        <div [ngClass]="{disabled: !selectedSector}"></div>
+        <div class="select-wrapper">
+          <mat-label class="criterion-label">
+            <span>Устройство</span>
+          </mat-label>
+          <mat-form-field>
+            <mat-select id="management_company"
+                        placeholder="Выберите устройство"
+                        [(ngModel)]="selectedDeviceType"
+                        (selectionChange)="onParamsChange()">
+              <mat-option *ngFor="let device of deviceTypes" [value]="device.device_type">{{device.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="criterion-inner">
+        <div [ngClass]="{disabled: !selectedDeviceType}"></div>
+        <div class="select-wrapper">
+          <mat-label class="criterion-label">
+            <span>Статус</span>
+          </mat-label>
+          <mat-form-field>
+            <mat-select id="management_company"
+                        [(ngModel)]="selectedState"
+                        (selectionChange)="onParamsChange()">
+              <mat-option *ngFor="let status of stateArray" [value]="status.state">{{status.text}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="criterion-inner">
+        <div [ngClass]="{disabled: !selectedDeviceType}"></div>
+        <div class="select-wrapper">
+          <mat-label class="criterion-label">
+            <span>Сортировка</span>
+          </mat-label>
+          <mat-form-field>
+            <mat-select id="management_company"
+                        [(ngModel)]="sortParamsForRequest"
+                        (selectionChange)="onParamsChange()">
+              <mat-option *ngFor="let item of sortParams" [value]="item">{{item.text}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <mat-progress-bar mode="indeterminate" *ngIf="areDevicesLoading"></mat-progress-bar>
+
+  </div>
+
+  <app-device-attention-table *ngIf="areDevicesAlreadyLoading"></app-device-attention-table>
+
+</div>

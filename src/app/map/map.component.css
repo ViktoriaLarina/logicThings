@@ -1,0 +1,7 @@
+.map-wrapper {
+  height: calc(100vh - 130px);
+}
+
+agm-map {
+  height: 100%;
+}

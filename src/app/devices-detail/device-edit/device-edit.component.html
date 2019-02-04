@@ -1,0 +1,68 @@
+<div>
+  <div class="col-8 add-info-wrapper">
+    <h2>Редактирование устройства</h2>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Тип прибора учета (name)" type="text" [(ngModel)]="currentDevice.name">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Описание (description)" type="text" [(ngModel)]="currentDevice.description">
+    </mat-form-field>
+    <mat-select placeholder="Тип устройства" [(ngModel)]="currentDevice.device_type">
+      <mat-option value="10">электричество</mat-option>
+      <mat-option value="20">вода холодная</mat-option>
+      <mat-option value="30">вода горячая</mat-option>
+      <mat-option value="40">газ</mat-option>
+      <mat-option value="50">тепло</mat-option>
+    </mat-select>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="№ прибора учета (serial_number)" type="text" [(ngModel)]="currentDevice.serial_number">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Лицевой счет (bill_number)" type="text" [(ngModel)]="currentDevice.bill_number">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="№ договора (agreement_number)" type="text" [(ngModel)]="currentDevice.agreement_number">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="...(app_eui))" type="text" [(ngModel)]="currentDevice.app_eui">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="...(dev_eui)" type="text" [(ngModel)]="currentDevice.dev_eui">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Адрес устройства(dev_addr)" type="text" [(ngModel)]="currentDevice.dev_addr">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Порт подключения(port)" type="text" [(ngModel)]="currentDevice.port">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Значность(signs_amount)" type="text" [(ngModel)]="currentDevice.signs_amount">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Характер нагрузки(consumer_type)" type="text" [(ngModel)]="currentDevice.consumer_type">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Участок(sector)" type="text" [(ngModel)]="currentDevice.sector">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Компания Владелец(owner_company)" type="text" [(ngModel)]="currentDevice.owner_company">
+    </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Обслуживающая Компания(service_company)" type="text" [(ngModel)]="currentDevice.service_company">
+    </mat-form-field>
+
+    <div class="align">
+      <mat-checkbox [(ngModel)]="additional">Дополнительные параметры</mat-checkbox>
+    </div>
+
+    <div *ngIf="additional">
+      <app-device-additional-data-version [deviceValues]="currentDeviceValues"></app-device-additional-data-version>
+
+    </div>
+    <div class="button-wrapper">
+      <button mat-raised-button color="primary" (click)="close()">Отменить</button>
+      <button mat-raised-button color="primary" (click)="save()">Сохранить</button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,204 @@
+<div class="abonent-node-wrapper">
+  <div class="abonent-node"
+       *ngFor="let client of addresses.clients"
+       [id]="'abonent-node' + client.node_id"
+       (click)="toggleNode(client, $event); $event.stopPropagation(); getNode(client, $event)"
+       [ngClass]="{'active': client === activeNode, 'expanded': client.expanded}">
+    <p class="client-node-name client-node">
+      <span class="icon-24 arrow-right" *ngIf="!client.expanded"></span>
+      <span class="icon-24 arrow-down" *ngIf="client.expanded"></span>
+      <span class="icon-24" [ngClass]="pickIcon(client)"></span>
+      <span class="node-name">{{client.name}}</span>
+    </p>
+    <div class="search" *ngIf="client.expanded">
+      <mat-form-field class="mat-input-wrapper">
+        <input
+          matInput
+          [id]="'searchInput' + client.node_id"
+          placeholder="Поиск адреса"
+          type="text"
+          [value]="client.searchValue || ''"
+          (keyup.enter)="search(client, $event)"
+          (click)="$event.stopPropagation()">
+      </mat-form-field>
+      <button mat-raised-button
+              color="primary"
+              class="compact-btn"
+              (click)="search(client, $event); $event.stopPropagation()">
+        <span matTooltip="Искать" matTooltipPosition="above" class="icon-24 search-icon"></span>
+      </button>
+      <button mat-raised-button
+              color="primary"
+              class="compact-btn"
+              [disabled]="!client.filters"
+              (click)="openDialog(filterDialog, client); $event.stopPropagation()">
+        <span matTooltip="Фильтр" matTooltipPosition="above" class="icon-24 filter-icon"></span>
+      </button>
+      <div class="filters" *ngIf="client.selectedFilters?.district || client.selectedFilters?.deviceType" (click)="$event.stopPropagation()">
+        <ul>
+          <li *ngIf="client.selectedFilters.district">
+            Район: {{client.selectedFilters.district}}
+          </li>
+          <li *ngIf="client.selectedFilters.deviceType.key">
+            Устройство: {{client.selectedFilters.deviceType.name}}
+          </li>
+          <li *ngIf="client.selectedFilters.sector.key">
+            Участок: {{client.selectedFilters.sector.name}}
+          </li>
+        </ul>
+        <span 
+        (click)="client.selectedFilters = {}; $event.stopPropagation();"
+        class="clear-filter close-icon-inverted"></span>
+      </div>
+      <ng-template #filterDialog>
+        <h1 mat-dialog-title>Фильтры</h1>
+          <mat-dialog-content>
+              <mat-form-field>
+                <mat-select 
+                  #districtSelect
+                  placeholder="Районы" 
+                  [value]="client.selectedFilters?.district"
+                  (click)="$event.stopPropagation()"
+                  (change)="deviceTypeSelect.value = null; sectorSelect.value = null;">
+                  <mat-option 
+                    *ngFor="let d of client.filters?.districts"
+                    [value]="d">
+                      {{d}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select 
+                  #deviceTypeSelect
+                  [value]="client.selectedFilters?.deviceType?.key"
+                  [disabled]="!districtSelect.value"
+                  (change)="getCurrentSector(client, districtSelect.value, deviceTypeSelect.value, sectorSelect)"
+                  placeholder="Тип устройства">
+                  <mat-option [value]="10">Электричество</mat-option>
+                  <mat-option [value]="20">Вода холодная</mat-option>
+                  <mat-option [value]="30">Вода горячая</mat-option>
+                  <mat-option [value]="40">Газ</mat-option>
+                  <mat-option [value]="50">Тепло</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select 
+                  #sectorSelect
+                  [value]="client.selectedFilters?.sector?.key"
+                  [disabled]="!deviceTypeSelect.value || !client.filters?.sectors"
+                  placeholder="Участок">
+                  <mat-option 
+                    *ngFor="let s of client.filters?.sectors"
+                    [value]="s">
+                      {{s}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </mat-dialog-content>
+          <mat-dialog-actions>
+              <button mat-raised-button (click)="closeDialog()">Отмена</button>
+              <button 
+                mat-raised-button 
+                [disabled]="!districtSelect.value"
+                (click)="closeDialog(client, districtSelect, deviceTypeSelect, sectorSelect)">Применить</button>
+          </mat-dialog-actions>
+      </ng-template>
+      <p *ngIf="total[client.node_id]">(Найдено элементов: {{total[client.node_id].total || 0}})</p>
+    </div>
+    <div class="node-loading-status">
+      <p class="client-node data-waiting" *ngIf="client.isWaiting">Идет загрузка данных...</p>
+      <p class="client-node no-child-node" *ngIf="client.noChilds"></p>
+      <p class="client-node no-child-node" *ngIf="client.noChilds">Отсутствуют дочерние абоненты</p>
+      <p class="client-node no-child-node" *ngIf="client.invalidRequest">Введен некорректный запрос</p>
+    </div>
+    <div *ngIf="client.expanded && shownNodes[client.node_id]"
+         appInfiniteScroll
+         [perfectScrollbar]="config"
+         [upBorder]="15"
+         [downBorder]="25"
+         (downScrolled)="onScroll($event, client)"
+         (upScrolled)="onScrollUp($event, client)"
+         [class]="'scroll' + client.node_id + ' search-results'">
+      <!--<div *ngIf="client.expanded && shownNodes[client.node_id]"-->
+           <!--appInfiniteScroll-->
+           <!--[upBorder]="25"-->
+           <!--[downBorder]="25"-->
+           <!--(downScrolled)="onScroll(client)"-->
+           <!--(upScrolled)="onScrollUp(client)"-->
+           <!--[class]="'scroll' + client.node_id + ' search-results'">-->
+         <!--id="search-results">-->
+      <!--<div data-infinite-scroll-->
+           <!--[infiniteScrollDistance]="1"-->
+           <!--[infiniteScrollUpDistance]="1"-->
+           <!--[infiniteScrollThrottle]="150"-->
+           <!--[scrollWindow]="false"-->
+           <!--[immediateCheck] = "true"-->
+           <!--[fromRoot]="true"-->
+           <!--(scrolledUp)="onScrollUp(client)"></div>-->
+    <div class="abonent-node"
+         *ngFor="let building of shownNodes[client.node_id]"
+         (click)="getNode(building, $event, client);"
+         [ngClass]="{'active': building === activeNode, 'expanded': building.expanded}">
+      <p class="client-node-name building-node">
+        <span (click)="toggleNode(building); $event.stopPropagation();" class="icon-24 arrow-right" *ngIf="!building.expanded"></span>
+        <span (click)="toggleNode(building); $event.stopPropagation();" class="icon-24 arrow-down" *ngIf="building.expanded"></span>
+        <span class="icon-24" [ngClass]="pickIcon(building)"></span>
+        <span class="node-name">{{building.name}}</span>
+      </p>
+
+      <div class="node-loading-status" (click)="$event.stopPropagation();">
+        <p class="building-node data-waiting" *ngIf="building.isWaiting">Идет загрузка данных...</p>
+        <p class="client-node no-child-node" *ngIf="building.noChilds"></p>
+        <p class="client-node no-child-node" *ngIf="building.noChilds">Отсутствуют дочерние абоненты</p>
+      </div>
+      <div class="abonent-node"
+           *ngFor="let entrance of building.child"
+           (click)="getNode(entrance, $event, client);"
+           [ngClass]="{'active': entrance === activeNode, 'expanded': entrance.expanded}">
+        <p class="client-node-name entrances-node" [ngClass]="{'office-name': entrance.node_type === 50}">
+          <span *ngIf="entrance.node_type === 30">
+            <span (click)="toggleNode(entrance); $event.stopPropagation();" class="icon-24 arrow-right" *ngIf="!entrance.expanded"></span>
+            <span (click)="toggleNode(entrance); $event.stopPropagation();" class="icon-24 arrow-down" *ngIf="entrance.expanded"></span>
+          </span>
+          <span class="icon-24" [ngClass]="pickIcon(entrance)"></span>
+          <span class="node-name">{{entrance.name}}</span>
+        </p>
+        <div (click)="$event.stopPropagation();" class="node-loading-status" *ngIf="entrance.node_type === 30">
+          <p class="entrances-node data-waiting" *ngIf="entrance.isWaiting">Идет загрузка данных...</p>
+          <p class="client-node no-child-node" *ngIf="entrance.noChilds"></p>
+          <p class="client-node no-child-node" *ngIf="entrance.noChilds">Отсутствуют дочерние абоненты</p>
+        </div>
+        <div (click)="$event.stopPropagation();" class="node-loading-status" *ngIf="entrance.node_type === 50">
+          <p class="entrances-node data-waiting" *ngIf="entrance.isWaiting">Идет загрузка данных...</p>
+        </div>
+        <div class="abonent-node"
+             *ngFor="let flat of entrance.child"
+             (click)="getNode(flat, $event, client);"
+             [ngClass]="{'active': flat === activeNode, 'expanded': flat.expanded}">
+          <p class="client-node-name flat-name consumer-node">
+            <span (click)="toggleNode(flat)" class="icon-24" [ngClass]="pickIcon(flat)"></span>
+            <span class="node-name">{{flat.name}}</span>
+          </p>
+          <div (click)="$event.stopPropagation();" class="node-loading-status">
+            <p class="consumer-node data-waiting" *ngIf="flat.isWaiting">Идет загрузка данных...</p>
+          </div>
+        </div>
+        <div class="abonent-node"
+             *ngFor="let office of entrance.offices"
+             (click)="getNode(office, $event, client);"
+             [ngClass]="{'active': office === activeNode, 'expanded': office.expanded}">
+          <p class="client-node-name office-name consumer-node">
+            <span (click)="toggleNode(office)" class="icon-24" [ngClass]="pickIcon(office)"></span>
+            <span class="node-name">{{office.name}}</span>
+          </p>
+          <div (click)="$event.stopPropagation();" class="node-loading-status">
+            <p class="consumer-node data-waiting" *ngIf="office.isWaiting">Идет загрузка данных...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+
+</div>

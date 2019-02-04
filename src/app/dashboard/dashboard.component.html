@@ -1,0 +1,148 @@
+<div id="dashboard" class="dashboard" [ngClass]="{'no-sidebar-page': (router.url === '/home/reports' || router.url === '/home/users' || router.url === '/home/device-attention')}">
+  <div id="dashboard-shadow" class="shadow closed-up" (click)="closeMenu()"></div>
+  <div class="dashboard-wrapper">
+    <div class="dashboard-address-info" *ngIf="(router.url !== '/home/reports') && (router.url !== '/home/users') && (router.url !== '/home/device-attention')">
+      <div class="address-info-icon"></div>
+      <div class="row">
+        <div class="col-12 clearfix dashboard-header">
+        <div class="buttons-holder" *ngIf="router.url !== '/home/map'">
+          <button mat-icon-button
+                  [disabled]="currentNode.node_type === 40 || currentNode.node_type === 50"
+                  (click)="addressAdd()"
+                  *ngIf="router.url === '/home/subscribers'">
+            <span matTooltip="Добавить узел"
+                  matTooltipPosition="below"
+                  matTooltipShowDelay="300"
+                  class="icon-24 add-info-icon"></span>
+          </button>
+          <button mat-icon-button
+                  (click)="addressAdd()"
+                  *ngIf="router.url === '/home/devices'">
+            <span matTooltip="Добавить устройство"
+                  matTooltipPosition="below"
+                  matTooltipShowDelay="300"
+                  class="icon-24 add-info-icon"></span>
+          </button>
+          <button mat-icon-button
+                  (click)="addressAdd()"
+                  *ngIf="router.url === '/home/user-assign'">
+            <span matTooltip="Добавить привязку"
+                  matTooltipPosition="below"
+                  matTooltipShowDelay="300"
+                  class="icon-24 add-info-icon"></span>
+          </button>
+          <button mat-icon-button
+                  [disabled]="!currentNode.node_id"
+                  (click)="addressChange()"
+                  *ngIf="router.url === '/home/subscribers'">
+            <span matTooltip="Редактировать узел"
+                  matTooltipPosition="below"
+                  matTooltipShowDelay="300"
+                  class="icon-24 edit-info-icon"></span>
+          </button>
+          <button mat-icon-button
+                  (click)="addressChange()"
+                  *ngIf="router.url === '/home/devices'">
+            <span matTooltip="Редактировать устройство"
+                  matTooltipPosition="below"
+                  matTooltipShowDelay="300"
+                  class="icon-24 edit-info-icon"></span>
+          </button>
+          <button mat-icon-button
+                  color="disabled"
+                  disabled
+                  *ngIf="router.url === '/home/user-assign'">
+                  <span class="icon-24 edit-info-icon"></span>
+            <!--<span matTooltip="Изменить права доступа"-->
+                  <!--matTooltipPosition="below"-->
+                  <!--matTooltipShowDelay="300"-->
+                  <!--class="icon-24 edit-info-icon"></span>-->
+          </button>
+          <button mat-icon-button
+                  [disabled]="!currentNode.node_id"
+                  (click)="addressDel()"
+                  *ngIf="router.url === '/home/subscribers'">
+            <span matTooltip="Удалить узел"
+                  matTooltipPosition="left"
+                  matTooltipShowDelay="300"
+                  class="icon-24 cart-icon"></span>
+          </button>
+          <button mat-icon-button
+                  (click)="addressDel()"
+                  *ngIf="router.url === '/home/devices'">
+            <span matTooltip="Удалить устройство"
+                  matTooltipPosition="left"
+                  matTooltipShowDelay="300"
+                  class="icon-24 cart-icon"></span>
+          </button>
+          <button mat-icon-button
+                  (click)="addressDel()"
+                  *ngIf="router.url === '/home/user-assign'">
+            <span matTooltip="Удалить привязку"
+                  matTooltipPosition="left"
+                  matTooltipShowDelay="300"
+                  class="icon-24 cart-icon"></span>
+          </button>
+        </div>
+        <div class="node-info" *ngIf="currentNode && currentNode.node_type != 0">
+          <p><span>Узел учёта:</span><span class="text-bold">{{currentNode.name || ''}}</span></p>
+          <p><span>{{currentNode.description || ''}}</span></p>
+          <p>
+            <span class="requisite-name short">Страна:</span>
+            <span class="text-bold requisite-name">{{currentNodeValues.country.name || ''}}</span>
+          </p>
+          <p>
+            <span class="requisite-name short">Город:</span>
+            <span class="text-bold requisite-name">{{currentNodeValues.city.name || ''}}</span>
+          </p>
+        </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="currentNode && currentNode.node_type > 10">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 info-block">
+          <p>
+            <span class="requisite-name short">Район:</span>
+            <span class="text-bold requisite-name">{{currentNodeValues.district.name || ''}}</span>
+          </p>
+        </div>
+
+        <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8 info-block">
+          <p>
+            <span class="requisite-name extended" *ngIf="currentNode.node_type >= 20">Адрес:</span>
+            <span class="text-bold requisite-name" *ngIf="currentNode.node_type >= 20">
+              {{currentNodeValues.type.name || ''}} {{currentNodeValues.name.name || ''}} {{currentNodeValues.houseNumber.name || ''}} {{currentNodeValues.section.name || ''}}</span>
+          </p>
+          <!--<p>-->
+            <!--<span class="requisite-name extended" *ngIf="currentNode.node_type >= 20">Название:</span>-->
+            <!--<span class="text-bold requisite-name" *ngIf="currentNode.node_type >= 20">{{currentNodeValues.name.name || ''}}</span>-->
+          <!--</p>-->
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 info-block">
+          <p *ngIf="currentNode.node_type > 30">
+            <span class="requisite-name short">Номер счёта:</span>
+            <span class="text-bold requisite-name">{{currentNodeValues.accountNumber.name || ''}}</span>
+          </p>
+          <p *ngIf="currentNode.node_type === 40">
+            <span class="requisite-name short">Квартира:</span>
+            <span class="text-bold requisite-name">{{currentNodeValues.apartmentNumber.name || ''}}</span>
+          </p>
+          <p *ngIf="currentNode.node_type === 50">
+            <span class="requisite-name short">Офис:</span>
+            <span class="text-bold requisite-name">{{currentNodeValues.officeNumber.name || ''}}</span>
+          </p>
+        </div>
+        <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8 info-block" *ngIf="currentNode.node_type > 30">
+          <p>
+            <span class="requisite-name extended">ФИО абонента:</span>
+            <span class="text-bold">{{currentNodeValues.lastName.name || ''}}</span>
+            <span class="text-bold">{{currentNodeValues.firstName.name || ''}}</span>
+            <span class="text-bold">{{currentNodeValues.patronymic.name || ''}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

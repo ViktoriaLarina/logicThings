@@ -1,0 +1,35 @@
+.mat-input-wrapper, .mat-select {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}
+.mat-input-wrapper input {
+  text-align: left;
+}
+.mat-form-field-infix label {
+  text-align: left;
+}
+.title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.margin {
+  margin-top: 2px;
+}
+
+.color-message {
+  color: #ff9421;
+}
+.reading-date-wrapper {
+  display: block;
+  text-align: center;
+}
+.reading-date-wrapper + .mat-input-wrapper {
+  margin-top: 1.5em;
+}
+.time-wrapper {
+  max-width: 100px;
+  text-align: center;
+  display: inline-block;
+}

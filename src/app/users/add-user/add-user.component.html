@@ -1,0 +1,83 @@
+<div class="wrapper">
+  <div class="col-6 add-info-wrapper">
+    <h2>Создание пользователя</h2>
+
+    <form>
+      <div [formGroup]="newUserInfo">
+        <mat-form-field class="mat-input-wrapper">
+          <label for="login-user">Login*</label>
+          <input matInput id="login-user" type="text" formControlName="login" disabled/>
+          <span class="error-text" *ngIf="newUserInfo.value.login">Допустимый формат 10 цифр</span>
+        </mat-form-field>
+
+
+        <mat-form-field class="mat-input-wrapper">
+          <label for="email-user">Email*</label>
+          <input matInput id="email-user" type="text" formControlName="email" disabled/>
+          <span class="error-text" *ngIf="newUserInfo.value.email">Укажить корректно email адрес</span>
+        </mat-form-field>
+
+        <mat-form-field class="mat-input-wrapper">
+          <label for="last-name-user">Фамилия*</label>
+          <input matInput id="last-name-user" type="text" formControlName="last_name"/>
+          <span class="error-text" *ngIf="newUserInfo.value.last_name">Укажить корректно фамилию</span>
+        </mat-form-field>
+
+        <mat-form-field class="mat-input-wrapper">
+          <label for="first-name-user">Имя*</label>
+          <input matInput id="first-name-user" type="text" formControlName="first_name"/>
+          <span class="error-text" *ngIf="newUserInfo.value.first_name">Укажить корректно имя</span>
+        </mat-form-field>
+
+
+        <mat-form-field class="mat-input-wrapper">
+          <label for="father-name-user">Отчество*</label>
+          <input matInput id="father-name-user" type="text" formControlName="father_name"/>
+          <span class="error-text" *ngIf="newUserInfo.value.father_name">Укажить корректно отчество</span>
+        </mat-form-field>
+
+        <mat-form-field class="mat-input-wrapper">
+          <label for="password-user">Пароль*</label>
+          <input matInput id="password-user" type="text" formControlName="password"  [type]=" 'password' ">
+          <span class="error-text" *ngIf="passwordControl.hasError('minlength')  && !passwordControl.hasError('pattern')">Минимальный пароль 6 символов</span>
+          <span class="error-text" *ngIf="passwordControl.hasError('pattern') && !passwordControl.hasError('minlength')">Пробелы не допустимы</span>
+        </mat-form-field>
+
+        <mat-form-field class="mat-input-wrapper">
+          <label for="confirm-password-user">Повторите пароль*</label>
+          <input matInput id="confirm-password-user" formControlName="confirmPassword" [type]=" 'password' ">
+          <span class="error-text" *ngIf="newUserInfo.value.confirmPassword">Пароли не совпадают</span>
+        </mat-form-field>
+
+      </div>
+
+      <div class="mat-input-wrapper">
+        <label>Роль</label>
+        <mat-select [(ngModel)]="userRole" id="edit-role-user" name="edit-role-user" disabled="true">
+          <mat-option *ngFor="let role of roleArray" [value]="role.value" name="edit-role-user-item">{{role.text}}
+          </mat-option>
+        </mat-select>
+      </div>
+
+      <div class="mat-input-wrapper">
+        <label>Статус</label>
+        <mat-select [(ngModel)]="userStatus" id="edit-status-user" name="edit-user-status" disabled="true">
+          <mat-option *ngFor="let status of userStatusArray" [value]="status.value" name="edit-user-status-item">
+            {{status.text}}
+          </mat-option>
+        </mat-select>
+      </div>
+
+      <p class="error-message" *ngIf="isErrorShow">Форма содержит недопустимые значения!</p>
+
+      <div class="btn-group">
+        <button mat-raised-button (click)="cancel()">Отменить</button>
+        <button mat-raised-button (click)="sendData()">Создать</button>
+      </div>
+
+
+    </form>
+
+  </div>
+
+</div>

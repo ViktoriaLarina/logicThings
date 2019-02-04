@@ -1,0 +1,85 @@
+<div>
+  <div class="col-8 add-info-wrapper">
+    <h2>Изменение статуса устройства</h2>
+    <mat-select placeholder="Статус устройства" [(ngModel)]="newDeviceState.value">
+      <mat-option  *ngFor="let item of stateArray" value="{{item.state}}">{{item.text}}</mat-option>
+    </mat-select>
+    <div class="title color-message" *ngIf="ableSave.state">Выберете новый статус устройства</div>
+
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput placeholder="Причина изменения статуса" type="text" [(ngModel)]="newDeviceState.comment">
+    </mat-form-field>
+
+    <mat-select placeholder="Заменить на:" [(ngModel)]="childDevice" *ngIf=" newDeviceState.value === DeviceState.REPLACED && ableReplaceDevices && ableReplaceDevices.length !== 0">
+      <mat-option *ngFor="let item of ableReplaceDevices" value="{{item.device_id}}">{{item.serial_number}}</mat-option>
+    </mat-select>
+    <div class="title color-message" *ngIf="ableSave.childDev && ableReplaceDevices && ableReplaceDevices.length !== 0 ">Выберете устройство для замены</div>
+
+    <p class="title color-message" *ngIf="newDeviceState.value === DeviceState.REPLACED && (!ableReplaceDevices || ableReplaceDevices.length ===0)">Нет устройств для замены</p>
+
+    <div class="mat-input-wrapper">
+      <span class="reading-date-wrapper">
+        <span>Выбор даты: </span>
+        <mat-form-field class="date-picker-input">
+          <input matInput
+                 [matDatepicker]="srd"
+                 readonly="true"
+                 [min]="minDateforDatepicker"
+                 [(ngModel)]="newDateForReplace.date"
+                 [disabled]="currentDateAndTime"
+                 name="date"/>
+          <mat-datepicker-toggle matSuffix [for]="srd"></mat-datepicker-toggle>
+          <mat-datepicker #srd startView="month"></mat-datepicker>
+        </mat-form-field>
+      </span>
+      <span class="reading-date-wrapper">
+        <span>Ввод времени:</span>
+        <mat-form-field class="mat-input-wrapper time-wrapper">
+          <input matInput
+                 placeholder="Часы"
+                 type="text"
+                 maxlength="2"
+                 [(ngModel)]="newDateForReplace.hour"
+                 [attr.disabled]="currentDateAndTime ? '' : null"
+                 [formControl]="hoursFormControl">
+          <mat-error *ngIf="hoursFormControl.hasError('pattern')">
+            Часы: от 0 до 23
+          </mat-error>
+          <mat-error *ngIf="hoursFormControl.hasError('max')">
+            Часы: от 0 до 23
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="mat-input-wrapper time-wrapper">
+          <input matInput
+                 placeholder="Минуты"
+                 maxlength="2"
+                 [(ngModel)]="newDateForReplace.minutes"
+                 [attr.disabled]="currentDateAndTime ? '' : null"
+                 [formControl]="minutesFormControl"
+                 type="text">
+          <mat-error *ngIf="minutesFormControl.hasError('pattern')">
+            Минуты: от 0 до 59
+          </mat-error>
+          <mat-error *ngIf="minutesFormControl.hasError('max')">
+            Минуты: от 0 до 59
+          </mat-error>
+        </mat-form-field>
+      </span>
+      <div class="title color-message margin" *ngIf="isInvalidTime">Установите корректные дату и время</div>
+      <div class="title color-message" *ngIf="ableSave.date">Установите дату и время</div>
+      <div class="mat-input-wrapper">
+        <mat-checkbox
+          [(ngModel)]="currentDateAndTime"
+          (change)="setCurrentDate(currentDateAndTime)"
+          align="start">
+          Использовать текущее время и дату
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <div class="button-wrapper">
+      <button mat-raised-button color="primary" (click)="close()">Отменить</button>
+      <button mat-raised-button color="primary" (click)="save()">Сохранить</button>
+    </div>
+  </div>
+</div>

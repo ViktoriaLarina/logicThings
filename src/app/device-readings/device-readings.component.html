@@ -1,0 +1,498 @@
+<div>
+<div class="picker-block-wrapper clearfix">
+  <div class="device-reading-btns left-block">
+    <button mat-raised-button color="primary"
+            [ngClass]="{'is-active': period.periodType === 'day'}"
+            (click)="changePeriodOfDeviceData('day')">За день</button>
+    <button mat-raised-button color="primary"
+            [ngClass]="{'is-active': period.periodType === 'month'}"
+            (click)="changePeriodOfDeviceData('month')">За месяц</button>
+    <button mat-raised-button color="primary"
+            [ngClass]="{'is-active': period.periodType === 'quarter'}"
+            (click)="changePeriodOfDeviceData('quarter')">За квартал</button>
+    <button mat-raised-button color="primary"
+            [ngClass]="{'is-active': period.periodType === 'year'}"
+            (click)="changePeriodOfDeviceData('year')">За год</button>
+    <button mat-raised-button color="primary"
+            [ngClass]="{'is-active': period.periodType === 'period'}"
+            (click)="setPeriodType('period')">За период</button>
+  </div>
+  <div class="period-input-wrapper" *ngIf="period.periodType !== 'period'">
+    <button mat-icon-button (click)="decreaseSavedDate()">
+      <span class="icon-24 decrease-icon"></span>
+    </button>
+    <mat-form-field>
+      <input matInput
+            [matDatepicker]="dp"
+            readonly="true"
+            name="date"
+            class="date-picker-input"
+            [(ngModel)]="period.savedDate"
+            (dateChange)="reFreshData($event)"/>
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp startView="month"></mat-datepicker>
+    </mat-form-field>
+    <button mat-icon-button (click)="increaseSavedDate()">
+      <span class="icon-24 increase-icon"></span>
+    </button>
+  </div>
+  <div class="period-input-wrapper" *ngIf="period.periodType === 'period'" >
+    <div (click)="periodToggle()">
+      <input class="datepicker-period-input" type="text" [(ngModel)]="period.periodChoosen" >
+    </div>
+    <div class="date-picker-modal" *ngIf="period.modalPeriod">
+      <div class="date-picker-wrapper">
+        <mat-form-field>
+          <input matInput
+                 class="date-picker-input"
+                 [matDatepicker]="sd"
+                 readonly="true"
+                 name="date"
+                 [(ngModel)]="period.startingDate"
+                 (dateChange)="checkDatePeriod()"/>
+          <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+          <mat-datepicker #sd startView="month"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="date-picker-wrapper">
+        <mat-form-field>
+          <input matInput
+                 class="date-picker-input"
+                 [matDatepicker]="ed"
+                 readonly="true"
+                 name="date"
+                 [(ngModel)]="period.endingDate"
+                 (dateChange)="checkDatePeriod()"/>
+          <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+          <mat-datepicker #ed startView="month"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="date-picker-footer">
+        <div>
+          <p>Максимальный период выборки 1 год</p>
+          <p class="warning-message" *ngIf="!period.yearChecked">Выбран период более 1 года</p>
+          <p class="warning-message" *ngIf="!period.periodChecked">Начальная дата больше конечной</p>
+        </div>
+        <button mat-raised-button color="primary" (click)="savePeriodOfDates()" *ngIf="period.periodChecked">Применить</button>
+        <button mat-raised-button color="disabled" *ngIf="!period.periodChecked" disabled>Применить</button>
+      </div>
+    </div>
+  </div>
+  <div class="device-reading-btns right-block">
+    <!-- <button mat-raised-button color="primary" class="compact-btn"
+            (click)="changeTypeViewingData('chart')"
+            [ngClass]="{'is-active': period.typeDataRendering === 'chart'}">
+      <span matTooltip="График" matTooltipPosition="above" class="icon-24 chart-view-icon"></span>
+    </button> -->
+    <button mat-raised-button color="primary" class="compact-btn"
+            (click)="changeTypeViewingData('table')"
+            [ngClass]="{'is-active': period.typeDataRendering === 'table'}">
+      <span matTooltip="Таблица" matTooltipPosition="above"  class="icon-24 table-view-icon"></span>
+    </button>
+    <!-- <button mat-raised-button color="primary" class="compact-btn"
+            (click)="saveInFile()">
+      <span matTooltip="Загрузить в файл" matTooltipPosition="left"  class="icon-24 download-icon"></span></button> -->
+  </div>
+</div>
+  <div id="device-data-content">
+    <mat-accordion *ngIf="period.typeDataRendering === 'table'">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <p class="local-heading">Ввод показаний</p>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <div class="row align-items-center">
+            <div class="col">
+              <span class="reading-value-wrapper">
+                <span>Введите значение: </span>
+                <mat-form-field class="mat-input-wrapper">
+                  <input matInput
+                          class="readings-input"
+                          placeholder="Показания"
+                          type="text"
+                          [(ngModel)]="newReadings.value"
+                          [formControl]="readingsFormControl">
+                  <mat-error *ngIf="readingsFormControl.hasError('pattern')">
+                  Введите целое число/дробь до 3 знаков после запятой
+                  </mat-error>
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col">
+                <label>Выбор даты: </label>
+                <mat-form-field class="date-picker-input">
+                  <input matInput
+                          [matDatepicker]="srd"
+                          readonly="true"
+                          [(ngModel)]="newDateForReadings.date"
+                          [disabled]="currentDateAndTime"
+                          name="date"/>
+                  <mat-datepicker-toggle matSuffix [for]="srd"></mat-datepicker-toggle>
+                  <mat-datepicker #srd startView="month"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <label>Ввод времени: </label>
+                <mat-form-field class="mat-input-wrapper time-wrapper">
+                  <input matInput
+                          placeholder="Часы"
+                          type="text"
+                          maxlength="2"
+                          [(ngModel)]="newDateForReadings.hour"
+                          [attr.disabled]="currentDateAndTime ? '' : null"
+                          [formControl]="hoursFormControl">
+                  <mat-error *ngIf="hoursFormControl.hasError('pattern')">
+                    Часы: от 0 до 23
+                  </mat-error>
+                  <mat-error *ngIf="hoursFormControl.hasError('max')">
+                    Часы: от 0 до 23
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="mat-input-wrapper time-wrapper">
+                  <input matInput
+                          placeholder="Минуты"
+                          maxlength="2"
+                          [(ngModel)]="newDateForReadings.minutes"
+                          [attr.disabled]="currentDateAndTime ? '' : null"
+                          [formControl]="minutesFormControl"
+                          type="text">
+                  <mat-error *ngIf="minutesFormControl.hasError('pattern')">
+                    Минуты: от 0 до 59
+                  </mat-error>
+                  <mat-error *ngIf="minutesFormControl.hasError('max')">
+                    Минуты: от 0 до 59
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-checkbox
+                [(ngModel)]="currentDateAndTime"
+                align="start"
+                (change)="useCurrentDate4NewSample($event)"
+                class="date-time-checkbox">
+                Использовать текущее время и дату
+              </mat-checkbox>
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-6">
+              <span class="reading-value-wrapper">
+                <mat-form-field class="mat-input-wrapper-comment">
+                  <input matInput
+                          class="readings-input"
+                          placeholder="Комментарий"
+                          type="text"
+                          [(ngModel)]="newReadings.comment">
+                </mat-form-field>
+            </span>
+            </div>
+            <div class="col-6">
+              <mat-form-field>
+                <mat-select class="readings-input" placeholder="Важность комментария" [(ngModel)]="newReadings.comment_value">
+                  <mat-option value="1" >Обычный</mat-option>
+                  <mat-option value="2">Важный</mat-option>
+                  <mat-option value="3">Экстренный</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button mat-raised-button
+                      *ngIf="!checkReadings()"
+                      color="disabled"
+                      class="save-button text-center pull-right">
+                <span matTooltip="Сохранить" matTooltipPosition="above"  >Сохранить</span>
+              </button>
+              <button mat-raised-button
+                      *ngIf="checkReadings()"
+                      color="primary pull-right"
+                      class="save-button"
+                      (click)="createReadings()">
+                <span>Сохранить</span>
+                <span matTooltip="Сохранить" matTooltipPosition="above"  class="icon-24 save-icon-inverted"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-spinner class="align" *ngIf="loading"></mat-spinner>
+    <app-device-info-chart-component
+      [param]="deviceReadingsData"
+      [unit]="unit"
+      [period] = "period.periodType"
+      *ngIf="period.typeDataRendering === 'chart' && !loading">
+    </app-device-info-chart-component>
+    <div id="table-view" *ngIf="period.typeDataRendering === 'table'">
+      <table id="data-table" *ngIf="!loading">
+        <thead>
+          <tr>
+            <th>Дата пред. показания</th>
+            <th>Предыдущие показания {{unit}}</th>
+            <th>Дата</th>
+            <th>Показания {{unit}}</th>
+            <th>Расход {{unit}}</th>
+            <th>Действия</th>
+            <th width="60">
+              <span matTooltip="Источник показаний" class="icon-24 header-devices-icon"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="!deviceReadingsData.length">
+            <td colspan="6">Нет показаний</td>
+          </tr>
+          <tr *ngFor="let checkPoint of deviceReadingsData; let i = index">
+            <td>
+              <span *ngIf="checkPoint.prev_time !== 0">
+                {{checkPoint.prev_time | date:"dd/MM/yy HH:mm"}}
+              </span>
+              <span *ngIf="checkPoint.prev_time === 0">-</span>
+            </td>
+            <td>
+              <span *ngIf="checkPoint.prev !== 0">
+                  {{checkPoint.prev/1000}}
+              </span>
+              <span *ngIf="checkPoint.prev === 0">-</span>
+            </td>
+            <td>
+              <span>{{checkPoint.sample_time | date:"dd/MM/yy HH:mm"}}</span>
+            </td>
+            <td class="editable-cell">
+              <span>{{checkPoint.value/1000}}</span>
+            </td>
+            <td>
+              <span>
+                {{checkPoint.prev ? (checkPoint.value - checkPoint.prev)/1000 : 0}}
+              </span>
+            </td>
+            <td>
+              <button mat-raised-button
+                color="primary"
+                class="compact-btn"
+                *ngIf="checkPoint.sample_id"
+                (click)="openDialog(checkPoint)">
+              <div class="status-position status-low" *ngIf="checkPoint.comment_value === 1"></div>
+              <div class="status-position status-middle" *ngIf="checkPoint.comment_value === 2"></div>
+              <div class="status-position status-hight" *ngIf="checkPoint.comment_value === 3"></div>
+              <span matTooltip="Фото" matTooltipPosition="left"  class="icon-24 photo-icon-inverted"></span>
+              </button>
+              <button mat-raised-button
+                color="primary"
+                class="compact-btn"
+                (click)="openChangeDialog(sampleChange, checkPoint)">
+                <span matTooltip="Редактировать" matTooltipPosition="left"  class="icon-24 edit-icon-inverted"></span>
+              </button>
+              <button mat-raised-button
+                color="primary"
+                class="compact-btn"
+                (click)="deleteReadings(checkPoint)">
+                <span matTooltip="Удалить" matTooltipPosition="left"  class="icon-24 delete-icon-inverted"></span>
+              </button>
+            </td>
+            <td width="60">
+              <span
+              *ngIf="checkPoint.sample_flag == 10"
+              class="compact-btn from-device">
+                <span matTooltip="Добавлено с lora устройства" matTooltipPosition="left"  class="icon-24 data-lora"></span>
+              </span>
+              <span
+              *ngIf="checkPoint.sample_flag == 20"
+              class="compact-btn from-device">
+                <span matTooltip="Добавлено с Веб" matTooltipPosition="left"  class="icon-24 data-web"></span>
+              </span>
+              <span
+              *ngIf="checkPoint.sample_flag == 30"
+              class="compact-btn from-device">
+                <div class="status-position status-low"></div>
+                <span matTooltip="Добавлено с телефона (используя QRcode)" matTooltipPosition="left"  class="icon-24 data-android"></span>
+              </span>
+              <span
+              *ngIf="checkPoint.sample_flag == 31"
+              class="compact-btn from-device">
+                <div class="status-position status-hight"></div>
+                <span matTooltip="Добавлено с телефона (не используя QRcode)" matTooltipPosition="left"  class="icon-24 data-android"></span>
+              </span>
+              <span
+              *ngIf="checkPoint.sample_flag == 40"
+              class="compact-btn from-device">
+                <span matTooltip="Добавлено с csv файла" matTooltipPosition="left"  class="icon-24 data-csv"></span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #sampleChange>
+  <h1 mat-dialog-title>Изменение данных</h1>
+
+  <mat-dialog-content>
+    <form action="" [formGroup]="changeForm" class="change-form">
+      <div class="row">
+        <div class="col">
+          <label for="new-sample-value">Введите значение:</label>
+          <mat-form-field class="value-field">
+            <mat-label>показания</mat-label>
+            <input
+              matInput
+              formControlName="value"
+              name="new-sample-value"/>
+            <mat-error *ngIf="changeForm.controls.value.errors">
+              <span *ngIf="changeForm.controls.value.errors.required">
+                это поле обязательное*
+              </span>
+              <span *ngIf="changeForm.controls.value.errors.pattern">
+                должены состоять только из цифр
+              </span>
+              <span *ngIf="changeForm.controls.value.errors.max">
+                не должно быть больше чем {{changeForm.controls.value.errors.max.max}}
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Дата:</mat-label>
+              <input
+                matInput
+                class="date-picker-input"
+                [matDatepicker]="changeD"
+                formControlName="sampleDate"
+                readonly="true"
+                name="date"/>
+              <mat-datepicker-toggle matSuffix [for]="changeD"></mat-datepicker-toggle>
+              <mat-datepicker #changeD startView="month"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Часы:</mat-label>
+              <input
+                matInput
+                formControlName="sampleTimeH"
+                name="timeH"/>
+              <mat-error *ngIf="changeForm.controls.sampleTimeH.errors">
+                <span *ngIf="changeForm.controls.sampleTimeH.errors.required">
+                  это поле обязательное*
+                </span>
+                <span *ngIf="changeForm.controls.sampleTimeH.errors.pattern">
+                  часы: от 0 до 23
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>минуты:</mat-label>
+              <input
+                matInput
+                formControlName="sampleTimeM"
+                name="timeH"/>
+              <mat-error *ngIf="changeForm.controls.sampleTimeM.errors">
+                <span *ngIf="changeForm.controls.sampleTimeM.errors.required">
+                  это поле обязательное*
+                </span>
+                <span *ngIf="changeForm.controls.sampleTimeM.errors.pattern">
+                    минуты: от 0 до 59
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-checkbox
+            align="start"
+            class="date-time-checkbox"
+            ([ngModel])="useCurrentDate2Change"
+            (change)="useCurrentDate($event)"
+            >
+            Использовать текущее время и дату
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="comment-text-area">
+            <textarea
+              matInput
+              formControlName="comment"
+              width="300"
+              placeholder="Комментарий к показаниям"></textarea>
+          </mat-form-field>
+          <mat-error *ngIf="changeForm.controls.comment.errors">
+            <span *ngIf="changeForm.controls.comment.errors.required">
+              это поле обязательное*
+            </span>
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="comment-value-select">
+            <mat-select
+              formControlName="comment_value"
+              placeholder="Важность комментария">
+              <mat-option value="1">Обычный</mat-option>
+              <mat-option value="2">Важный</mat-option>
+              <mat-option value="3">Экстренный</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="comment-value-select">
+            <mat-select
+              formControlName="device_state"
+              placeholder="Состояние устройства">
+              <mat-option value="worked">
+                Работает
+              </mat-option>
+              <mat-option value="absent">
+                Отсутствует
+              </mat-option>
+              <mat-option value="new">
+                Новое
+              </mat-option>
+              <mat-option value="replaced">
+                Замененное
+              </mat-option>
+              <mat-option value="not_worked_confirm">
+                Не работает (проверено)
+              </mat-option>
+              <mat-option value="absent_confirm">
+                Отсутствует (проверено)
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="pull-right">
+    <button
+      mat-raised-button
+      (click)="closeDialog()">
+      Отмена
+    </button>
+    <button
+      mat-raised-button
+      class="mat-primary"
+      [disabled]="!changeForm.valid"
+      (click)="saveSample()">
+      <span matTooltip="Сохранить" matTooltipPosition="above">Сохранить</span>
+    </button>
+  </mat-dialog-actions>
+</ng-template>

@@ -1,0 +1,23 @@
+<aside id="sideNav" class="sidebar-wrapper">
+  <div class="sidebar-header">
+    <div class="logo">
+      <a href="https://lothings.io/" target="_blank">
+        <img src="../../assets/img/white_logo_meter.png" alt="LoThings - беспроводная связь для интернет вещей">
+      </a>
+    </div>
+    <h2>Абоненты</h2>
+  </div>
+  <div [ngClass]="{'disabled':disabled}"></div>
+
+  <div class="sidebar-container" [perfectScrollbar]="config">
+    <div class="all-nodes" [ngClass]="{'active':!show}" (click)="closeOrShow()" >
+      <span class="icon-24 arrow-right" *ngIf="!show"></span>
+      <span class="icon-24 arrow-down" *ngIf="show"></span>
+
+      <span>Все адреса</span>
+      <div *ngIf="show">
+        <app-client-nodes (onSearchFired)="scrollSearchToTop($event)"></app-client-nodes>
+      </div>
+    </div>
+  </div>
+</aside>

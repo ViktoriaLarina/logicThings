@@ -1,0 +1,72 @@
+<h2 mat-dialog-title class="text-center font-weight-bold">Редактирование информации пользователя</h2>
+<mat-dialog-content>
+
+  <form>
+    <div [formGroup]="userInfo">
+
+      <mat-form-field class="mat-input-wrapper">
+        <label for="edit-login-user">Login</label>
+        <input matInput id="edit-login-user" type="text" formControlName="login"/>
+        <span class="error-text" *ngIf="userInfo.value.login">Допустимый формат 10 цифр</span>
+      </mat-form-field>
+
+
+      <mat-form-field class="mat-input-wrapper">
+        <label for="edit-email-user">Email</label>
+        <input matInput id="edit-email-user" type="text" formControlName="email"/>
+        <span class="error-text" *ngIf="userInfo.value.email">Укажить корректно email адрес</span>
+      </mat-form-field>
+
+      <mat-form-field class="mat-input-wrapper">
+        <label for="edit-last-name-user">Фамилия</label>
+        <input matInput id="edit-last-name-user" type="text" formControlName="last_name"/>
+        <span class="error-text" *ngIf="userInfo.value.last_name">Укажить корректно фамилию</span>
+      </mat-form-field>
+
+      <mat-form-field class="mat-input-wrapper">
+        <label for="edit-first-name-user">Имя</label>
+        <input matInput id="edit-first-name-user" type="text" formControlName="first_name"/>
+        <span class="error-text" *ngIf="userInfo.value.first_name">Укажить корректно имя</span>
+      </mat-form-field>
+
+
+      <mat-form-field class="mat-input-wrapper">
+        <label for="edit-father-name-user">Отчество</label>
+        <input matInput id="edit-father-name-user" type="text" formControlName="father_name"/>
+        <span class="error-text" *ngIf="userInfo.value.father_name">Укажить корректно отчество</span>
+      </mat-form-field>
+
+    </div>
+
+    <div class="mat-input-wrapper">
+      <label>Роль</label>
+      <mat-select [(ngModel)]="userRole" id="edit-role-user" name="edit-role-user">
+        <mat-option *ngFor="let role of roleArray" [value]="role.value" name="edit-role-user-item">{{role.text}}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <div class="mat-input-wrapper">
+      <label>Статус</label>
+      <mat-select [(ngModel)]="userStatus" id="edit-status-user" name="edit-user-status" [disabled]="isDisabled">
+        <mat-option *ngFor="let status of userStatusArray" [value]="status.value" name="edit-user-status-item">
+          {{status.text}}
+        </mat-option>
+      </mat-select>
+    </div>
+
+  </form>
+  <p class="error-message" *ngIf="isErrorShow">Форма содержит недопустимые значения!</p>
+
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center">
+  <button
+    mat-raised-button
+    [mat-dialog-close]="false">Отменить
+  </button>
+  <button
+    mat-raised-button
+    color="disabled"
+    (click)="editUserInfo()">Сохранить
+  </button>
+</mat-dialog-actions>

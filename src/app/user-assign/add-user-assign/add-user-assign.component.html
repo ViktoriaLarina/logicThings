@@ -1,0 +1,43 @@
+<div>
+    <div class="col-8 add-info-wrapper">
+      <h2>Привязка нового пользователя</h2>
+      <form class="pt-4 pb-1">
+      <mat-select placeholder="Список пользователей"
+                  [(ngModel)]="newAssigning.user_id"
+                  name="usersAssigningList">
+                  <!--#usersAssigningList-->
+                  <!--(change)="userSelect(usersAssigningList)">-->
+        <mat-option *ngFor="let user of users"
+                    [value]=user.user_id>
+          <span class="user-data">Логин: {{user.login}}</span>
+          <span class="user-data">ФИО: {{user.first_name}}</span>
+          <span class="user-data">{{user.father_name}}</span>
+          <span class="user-data">{{user.last_name}}</span>
+        </mat-option>
+      </mat-select>
+      <mat-select placeholder="Права пользователя"
+                  [(ngModel)]="newAssigning.access_mask"
+                  name="usersAccessList">
+                  <!--#usersAccessList-->
+                  <!--(change)="accessSelect(usersAccessList)">-->
+        <mat-option *ngFor="let item of accessRights"
+                    [value]=item.value>
+          <span class="user-data">{{item.text}}</span>
+        </mat-option>
+      </mat-select>
+
+      </form>
+      <div class="button-wrapper">
+        <button mat-raised-button
+                color="primary"
+                (click)="closeUserAssign()">Отменить</button>
+        <button mat-raised-button
+                color="disabled"
+                *ngIf="!checkUser()">Создать</button>
+        <button mat-raised-button
+                color="primary"
+                *ngIf="checkUser()"
+                (click)="assignUser()">Создать</button>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,141 @@
+<div id="saved-reports" class="container-fluid">
+  <div class="row reports-parameters">
+    <div class="col-12">
+      <h2>Параметры текущего отчета</h2>
+      <div class="row">
+        <div class="col-6">
+          <div class="report-param-wrapper">
+          <h3>Основные</h3>
+          <div class="row">
+            <div class="col-6">
+              <p><span class="rep-params-name">Управляющая компания:</span> {{filters.management_company || "Не выбрано"}}</p>
+              <p><span class="rep-params-name">Страна:</span> {{filters.country || "Не выбрано"}}</p>
+              <p><span class="rep-params-name">Город:</span> {{filters.town || "Не выбрано"}}</p>
+              <p><span class="rep-params-name">Район:</span> {{(filters.district === 'all' ? "Все районы" : filters.district) || "Не выбрано"}}</p>
+            </div>
+            <div class="col-6">
+              <p *ngIf="filters.device_type === 10">
+                <span class="rep-params-name">Устройство:</span> Электричество</p>
+              <p *ngIf="filters.device_type === 20">
+                <span class="rep-params-name">Устройство:</span> Вода холодная</p>
+              <p *ngIf="filters.device_type === 30">
+                <span class="rep-params-name">Устройство:</span> Вода горячая</p>
+              <p *ngIf="filters.device_type === 40">
+                <span class="rep-params-name">Устройство:</span> Газ</p>
+              <p *ngIf="filters.device_type === 50">
+                <span class="rep-params-name">Устройство:</span> Тепло</p>
+              <p *ngIf="filters.device_type === 0"><span class="rep-params-name">Устройство:</span> Не выбрано</p>
+              <p *ngIf="filters.district === 'all'">
+                <span class="rep-params-name">Участок:</span> Все участки по районам</p>
+              <p *ngIf="filters.district !== 'all'">
+                <span class="rep-params-name">Участок:</span>
+            {{(filters.sector === 'all' ? "Все участки" : filters.sector) || "Не выбрано"}}
+          </p>
+              <p><span class="rep-params-name">Период:</span></p>
+              <p>с {{filters.startingDate | date:'dd.MM.yyyy'}} по {{filters.endingDate | date:'dd.MM.yyyy'}}</p>
+            </div>
+        </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="report-param-wrapper">
+          <h3>Дополнительные</h3>
+          <div class="row">
+            <div class="col-6">
+              <p><span class="rep-params-name">Характер нагрузки:</span> {{additionFilters.loadCharacteristics.value || "Не задано"}}</p>
+              <p><span class="rep-params-name">Класс точности:</span> {{additionFilters.accuracyClass.value || "Не задано"}}</p>
+              <p><span class="rep-params-name">Тип энергии:</span> {{additionFilters.energyType.value || "Не задано"}}</p>
+              <p><span class="rep-params-name">Количество фаз:</span> {{additionFilters.phaseQuantity.value || "Не задано"}}</p>
+            </div>
+            <div class="col-6">
+              <p><span class="rep-params-name">Коэффициент трансформации:</span> {{additionFilters.transformationCoefficient.value || "Не задано"}}</p>
+              <p><span class="rep-params-name">Значность:</span> {{additionFilters.decimal.value || "Не задано"}}</p>
+              <p><span class="rep-params-name">Место установки:</span> {{additionFilters.deploymentPlace.value || "Не задано"}}</p>
+              <p><span class="rep-params-name">Количество подъездов:</span> {{additionFilters.entranceQuantity.value || "Не задано"}}</p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="btn-container">
+        <button mat-raised-button color="disabled" *ngIf="!report">Сформировать отчет для скачивания</button>
+        <!--<button mat-raised-button color="primary" *ngIf="report" (click)="createReport()">Сформировать отчет для скачивания-->
+          <!--<span matTooltip="Сформировать" matTooltipPosition="left"  class="icon-24 download-icon"></span>-->
+        <!--</button>-->
+      </div>
+    </div>
+  </div>
+  <div class="cards-holder">
+    <mat-card  class="card" *ngFor="let report of reportsList">
+      <mat-card-header>
+        <img mat-card-avatar src="../../../assets/img/reports-3f51b5-bg.png">
+        <mat-card-subtitle>
+          <div class="row">
+            <div class="col-2">
+              <p><span class="rep-params-name">Страна:</span> {{report.country}}</p>
+              <p><span class="rep-params-name">Город:</span> {{report.town}}</p>
+            </div>
+            <div class="col-3">
+              <!--<p><span class="rep-params-name">Район:</span>-->
+                <!--{{report.district === '' ? "Все районы" : report.district}}</p>-->
+              <!--<p><span class="rep-params-name">Участок:</span>-->
+                <!--{{report.sector === '' ? "Все участки" : report.sector}}</p>-->
+              <p *ngIf="report.device_type === 10">
+                <span class="rep-params-name">Устройство:</span> Электричество</p>
+              <p *ngIf="report.device_type === 20">
+                <span  class="rep-params-name">Устройство:</span> Вода холодная</p>
+              <p *ngIf="report.device_type === 30">
+                <span class="rep-params-name">Устройство:</span> Вода горячая</p>
+              <p *ngIf="report.device_type === 40">
+                <span class="rep-params-name">Устройство:</span> Газ</p>
+              <p *ngIf="report.device_type === 50">
+                <span class="rep-params-name">Устройство:</span> Тепло</p>
+              <p *ngIf="report.device_type === 0">
+                <span class="rep-params-name">Устройство:</span> Не выбрано</p>
+              <p>
+                <span class="rep-params-name">Период:</span>
+                {{report.from | date:"dd.MM.yyyy"}}-{{report.till | date:"dd.MM.yyyy"}}</p>
+            </div>
+            <div class="col-4 align">
+              <span>{{report.progress}}%</span>
+              <mat-progress-bar mode="determinate" [value]="report.progress"></mat-progress-bar>
+            </div>
+            <!--<div class="col-2 align">-->
+              <div class="col-3 align">
+
+              <button mat-raised-button color="primary"
+                      *ngIf="report.status === 'completed'"
+                      (click)="saveReport(report)">
+                Сохранить
+                <span matTooltip="Загрузить в файл" matTooltipPosition="left"  class="icon-24 download-icon"></span>
+              </button>
+              <button mat-raised-button color="disabled"
+                      *ngIf="report.status !== 'completed'">
+                {{report.progress}}%
+                <span matTooltip="Отчет еще не готов" matTooltipPosition="left"  class="icon-24 download-icon"></span>
+              </button>
+            <!--</div>-->
+            <!--<div class="col-1 align">-->
+              <button mat-raised-button color="primary"
+                      style="margin-top: 10px"
+                      *ngIf="report.status !== 'completed'"
+                      (click)="deleteReport(report)" >
+                Отменить
+              </button>
+              <button mat-raised-button color="primary"
+                      style="margin-top: 10px"
+                      *ngIf="report.status === 'completed'"
+                      (click)="deleteReport(report)" >
+
+                Удалить
+              </button>
+            </div>
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <!--<mat-card-content *ngIf="currentDevserial_number === iserial_number">-->
+        <!---->
+      <!--</mat-card-content>-->
+    </mat-card>
+  </div>
+</div>

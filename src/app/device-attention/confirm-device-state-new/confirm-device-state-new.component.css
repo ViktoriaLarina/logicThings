@@ -1,0 +1,146 @@
+.mat-dialog-title {
+  margin: 0;
+}
+
+
+.txt {
+  margin: 5px 0 0 0;
+}
+
+.inner-wrapper {
+  background: rgba(63,81,181,0.2);
+  padding: 0 5px 5px 5px;
+  margin-top: 15px;
+}
+
+.mat-form-field-wrapper {
+  margin-top: 2px;
+}
+
+.item-wrapper {
+  padding: 5px 10px;
+  display: inline-block;
+  width: 200px;
+  margin: 5px 0 0;
+  background: #fff;
+  height: 70px;
+  vertical-align: text-bottom;
+}
+
+.description {
+  min-width: 200px;
+  width: auto;
+  overflow-y: scroll;
+}
+
+.item-wrapper p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.title-item {
+  font-weight: 600;
+  text-align: center;
+}
+
+.description-input {
+  width: 100%;
+  padding-left: 15px;
+}
+
+.progress-bar-wrapper {
+  float: left;
+  width: 300px;
+  margin-left: 40px;
+}
+
+.progress-bar-wrapper span {
+  text-align: center;
+}
+
+.mat-dialog-actions {
+  float: right;
+  margin: 0;
+}
+
+.mat-dialog-actions button {
+  background-color: #3f51b5;
+  padding: 10px 30px;
+  margin-right: 30px;
+  border: #3f51b5;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.mat-dialog-actions button:hover {
+  background-color: #2c3a73;
+}
+
+.margin {
+  margin-right: 20px;
+}
+
+.hint {
+  padding: 5px 0 0 15px;
+  margin:0;
+  color: #3f51b5;
+  font-weight: 500;
+}
+
+.error-txt {
+  color: darkred;
+  margin-left: 40px;
+}
+
+.error-txt2 {
+  margin:0;
+  color: darkred;
+}
+
+input.ng-touched.ng-dirty.ng-invalid  {
+  border: solid 2px red;
+}
+
+.form {
+  display: inline-block;
+}
+/*device state style*/
+
+.state-txt {
+  color: #fff;
+  border-radius: 2px;
+  padding: 2px 0!important;
+}
+
+.status-on{
+  background-color: #00cd00;
+  border: 1px solid #00cd00;
+
+}
+.status-off{
+  background-color: #e60000;
+  border: 1px solid #e60000;
+
+}
+.status {
+  background-color: #a1a1a1;
+  border: 1px solid #6e6e6e;
+}
+
+
+/*--------------scroll style-------------*/
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+}
+
