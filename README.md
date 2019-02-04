@@ -1,8 +1,7 @@
 # Web application for devices what can:
 
-
 <br/>
-the transmission of information over a distance of up to 2 km in urban areas and up to 10 km in rural areas. 
+The transmission of information over a distance of up to 2 km in urban areas and up to 10 km in rural areas. 
 <br/>
 Term of autonomous work from standard AA batteries is more than 5 years.
 <br/>
